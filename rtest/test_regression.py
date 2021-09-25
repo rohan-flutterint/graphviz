@@ -346,7 +346,6 @@ def test_1221():
 
 @pytest.mark.skipif(shutil.which("gv2gml") is None,
                     reason="gv2gml not available")
-@pytest.mark.xfail(strict=True)
 def test_1276():
   """
   quotes within a label should be escaped in translation to GML

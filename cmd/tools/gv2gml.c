@@ -24,6 +24,8 @@
 #include <getopt.h>
 
 #include <cgraph/cgraph.h>
+#include <common/types.h>
+#include <common/utils.h>
 #include <ctype.h>
 #include <ingraphs/ingraphs.h>
 
@@ -222,7 +224,7 @@ emitAttr (char* name, char* value, FILE* outFile, int ix)
     if (isNumber (value))
 	fprintf (outFile, "%s %s\n", name, value);
     else  
-	fprintf (outFile, "%s \"%s\"\n", name, value);
+	fprintf (outFile, "%s \"%s\"\n", name, xml_string(value));
 }
 
 /* node attributes:
