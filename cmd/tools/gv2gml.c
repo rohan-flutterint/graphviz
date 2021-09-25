@@ -78,7 +78,7 @@ typedef struct {
     char* fontName;
 } edge_attrs;
 
-typedef struct Agnodeinfo_t {
+typedef struct {
     Agrec_t h;
     uint64_t id;
 } Agnodeinfo_t;
