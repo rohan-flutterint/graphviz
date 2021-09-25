@@ -28,7 +28,7 @@ libcommon_C_la_SOURCES = arrows.c colxlate.c ellipse.c textspan.c \
 	args.c memory.c globals.c htmllex.c htmlparse.y htmltable.c input.c \
 	pointset.c intset.c postproc.c routespl.c splines.c psusershape.c \
 	timing.c labels.c ns.c shapes.c utils.c geom.c taper.c \
-	output.c emit.c \
+	output.c emit.c xml.c \
 	color_names
 
 colxlate.o colxlate.lo : colortbl.h

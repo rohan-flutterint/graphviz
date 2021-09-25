@@ -263,6 +263,9 @@
     <ClCompile Include="label\xlabels.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="common\xml.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="gvc\gvc.def">

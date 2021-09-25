@@ -180,6 +180,7 @@ awk -f $(SolutionDir)awk\colortbl.awk color_lib &gt; common\colortbl.h</Command>
     <ClCompile Include="common\textspan.c" />
     <ClCompile Include="common\timing.c" />
     <ClCompile Include="common\utils.c" />
+    <ClCompile Include="common\xml.c" />
     <ClCompile Include="gvc\gvc.c" />
     <ClCompile Include="gvc\gvconfig.c" />
     <ClCompile Include="gvc\gvcontext.c" />
