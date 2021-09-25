@@ -344,6 +344,34 @@ def test_1221():
   # process this with dot
   subprocess.check_call(["dot", "-Tsvg", "-o", os.devnull, input])
 
+@pytest.mark.skipif(shutil.which("gv2gml") is None,
+                    reason="gv2gml not available")
+@pytest.mark.xfail(strict=True)
+def test_1276():
+  """
+  quotes within a label should be escaped in translation to GML
+  https://gitlab.com/graphviz/graphviz/-/issues/1276
+  """
+
+  # DOT input containing a label with quotes
+  dot = 'digraph test {\n' \
+        '  x[label=<"Label">];\n' \
+        '}'
+
+  # process this to GML
+  p = subprocess.Popen(["gv2gml"], stdin=subprocess.PIPE,
+                       stdout=subprocess.PIPE, universal_newlines=True)
+  gml, _ = p.communicate(dot)
+
+  assert p.returncode == 0, "gv2gml failed"
+
+  # the unescaped label should not appear in the output
+  assert '""Label""' not in gml, "quotes not escaped in label"
+
+  # the escaped label should appear in the output
+  assert '"&quot;Label&quot;"' in gml or '"&#34;Label&#34;"' in gml, \
+    "escaped label not found in GML output"
+
 def test_1314():
   """
   test that a large font size that produces an overflow in Pango is rejected
