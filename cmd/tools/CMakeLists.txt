@@ -140,7 +140,7 @@ target_include_directories(gv2gml PRIVATE
     ${GRAPHVIZ_LIB_DIR}/gvc
     ${GRAPHVIZ_LIB_DIR}/pathplan
     ${Getopt_INCLUDE_DIRS})
-target_link_libraries(gv2gml cgraph ingraphs)
+target_link_libraries(gv2gml cgraph gvc ingraphs)
 if(NOT HAVE_GETOPT_H)
     target_link_libraries(gv2gml ${Getopt_LINK_LIBRARIES})
 endif(NOT HAVE_GETOPT_H)

@@ -303,6 +303,7 @@ endif
 gv2gml_SOURCES = gv2gml.c
 
 gv2gml_LDADD = \
+	$(top_builddir)/lib/gvc/libgvc.la \
 	$(top_builddir)/lib/ingraphs/libingraphs_C.la \
 	$(top_builddir)/lib/cgraph/libcgraph.la
 
