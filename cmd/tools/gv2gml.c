@@ -81,9 +81,9 @@ typedef struct {
 typedef struct {
     Agrec_t h;
     uint64_t id;
-} Agnodeinfo_t;
+} Local_Agnodeinfo_t;
 
-#define ID(n)  (((Agnodeinfo_t*)(n->base.data))->id)
+#define ID(n)  (((Local_Agnodeinfo_t*)(n->base.data))->id)
 
 static void indent (int ix, FILE* outFile)
 {
@@ -417,7 +417,7 @@ emitNodeAttrs (Agraph_t* G, Agnode_t* np, FILE* outFile, int ix)
 static void 
 emitNode (Agraph_t* G, Agnode_t* n, FILE* outFile)
 {
-    agbindrec (n, "nodeinfo", sizeof(Agnodeinfo_t), TRUE);
+    agbindrec(n, "nodeinfo", sizeof(Local_Agnodeinfo_t), TRUE);
     fprintf(outFile, "  node [\n    id %" PRIu64 "\n    name \"%s\"\n", id,
             agnameof(n));
     ID(n) = id++;
