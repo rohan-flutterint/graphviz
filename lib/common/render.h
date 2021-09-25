@@ -39,7 +39,7 @@ extern "C" {
 #include "const.h"
 #include "globals.h"
 #include <common/memory.h>
-#include "colorprocs.h"		/* must collow color.h (in types.h) */
+#include "colorprocs.h"		/* must follow color.h (in types.h) */
 #include "geomprocs.h"		/* must follow geom.h (in types.h) */
 #include "agxbuf.h"
 #include "utils.h"		/* must follow types.h and agxbuf.h */
