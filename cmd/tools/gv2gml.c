@@ -672,15 +672,15 @@ static void usage(int v)
     exit(v);
 }
 
-static char *cmdName(char *path)
+static char *cmdName(char *cmd)
 {
     char *sp;
 
-    sp = strrchr(path, '/');
+    sp = strrchr(cmd, '/');
     if (sp)
         sp++;
     else
-        sp = path;
+        sp = cmd;
     return sp;
 }
 
