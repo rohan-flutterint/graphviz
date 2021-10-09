@@ -150,113 +150,16 @@ static int legalGXLName(char *id)
     return 1;
 }
 
-/* return true if *s points to &[A-Za-z]+;      (e.g. &Ccedil; )
- *                          or &#[0-9]*;        (e.g. &#38; )
- *                          or &#x[0-9a-fA-F]*; (e.g. &#x6C34; )
- */
-static int xml_isentity(char *s)
-{
-    s++;			/* already known to be '&' */
-    if (*s == ';') { // '&;' is not a valid entity
-	return 0;
-    }
-    if (*s == '#') {
-	s++;
-	if (*s == 'x' || *s == 'X') {
-	    s++;
-	    while ((*s >= '0' && *s <= '9')
-		   || (*s >= 'a' && *s <= 'f')
-		   || (*s >= 'A' && *s <= 'F'))
-		s++;
-	} else {
-	    while (*s >= '0' && *s <= '9')
-		s++;
-	}
-    } else {
-	while ((*s >= 'a' && *s <= 'z')
-	       || (*s >= 'A' && *s <= 'Z'))
-	    s++;
-    }
-    if (*s == ';')
-	return 1;
-    return 0;
-}
-
-static char *_xml_string(char *s, int notURL)
-{
-    static char *buf = NULL;
-    static size_t bufsize = 0;
-    char *p, *sub, *prev = NULL;
-    size_t len, pos = 0;
-
-    if (!buf) {
-	bufsize = 64;
-	buf = N_NEW(bufsize, char);
-    }
-
-    p = buf;
-    while (s && *s) {
-	if (pos > (bufsize - 8)) {
-	    bufsize *= 2;
-	    buf = realloc(buf, bufsize);
-	    p = buf + pos;
-	}
-	/* escape '&' only if not part of a legal entity sequence */
-	if (*s == '&' && !(xml_isentity(s))) {
-	    sub = "&amp;";
-	    len = 5;
-	}
-	/* '<' '>' are safe to substitute even if string is already UTF-8 coded
-	 * since UTF-8 strings won't contain '<' or '>' */
-	else if (*s == '<') {
-	    sub = "&lt;";
-	    len = 4;
-	}
-	else if (*s == '>') {
-	    sub = "&gt;";
-	    len = 4;
-	}
-	else if ((*s == '-') && notURL) {	/* can't be used in xml comment strings */
-	    sub = "&#45;";
-	    len = 5;
-	}
-	else if (*s == ' ' && prev && *prev == ' ' && notURL) {
-	    /* substitute 2nd and subsequent spaces with required_spaces */
-	    sub = "&#160;";  /* inkscape doesn't recognise &nbsp; */
-	    len = 6;
-	}
-	else if (*s == '"') {
-	    sub = "&quot;";
-	    len = 6;
-	}
-	else if (*s == '\'') {
-	    sub = "&#39;";
-	    len = 5;
-	}
-	else {
-	    sub = s;
-	    len = 1;
-	}
-	while (len--) {
-	    *p++ = *sub++;
-	    pos++;
-	}
-	prev = s;
-	s++;
-    }
-    *p = '\0';
-    return buf;
-}
-
-static char *xml_string(char *s)
-{
-    return _xml_string(s,1);
-}
-
 // `fputs` wrapper to handle the difference in calling convention to what
 // `xml_escape`’s `cb` expects
 static inline int put(void *stream, const char *s) {
   return fputs(s, stream);
+}
+
+// write a string to the given file, XML-escaping the input
+static inline int xml_puts(FILE *stream, const char *s) {
+  const xml_flags_t flags = {.dash = 1, .nbsp = 1};
+  return xml_escape(s, flags, put, stream);
 }
 
 // wrapper around `xml_escape` to set flags for URL escaping
@@ -382,11 +285,15 @@ static void graphAttrs(FILE * gxlFile, Agraph_t * g)
 
     val = agget(g, GXL_ROLE);
     if (!EMPTY(val)) {
-	fprintf(gxlFile, " role=\"%s\"", xml_string(val));
+	fprintf(gxlFile, " role=\"");
+	xml_puts(gxlFile, val);
+	fprintf(gxlFile, "\"");
     }
     val = agget(g, GXL_HYPER);
     if (!EMPTY(val)) {
-	fprintf(gxlFile, " hypergraph=\"%s\"", xml_string(val));
+	fprintf(gxlFile, " hypergraph=\"");
+	xml_puts(gxlFile, val);
+	fprintf(gxlFile, "\"");
     }
 }
 
@@ -396,15 +303,21 @@ static void edgeAttrs(FILE * gxlFile, Agedge_t * e)
 
     val = agget(e, GXL_ID);
     if (!EMPTY(val)) {
-	fprintf(gxlFile, " id=\"%s\"", xml_string(val));
+	fprintf(gxlFile, " id=\"");
+	xml_puts(gxlFile, val);
+	fprintf(gxlFile, "\"");
     }
     val = agget(e, GXL_FROM);
     if (!EMPTY(val)) {
-	fprintf(gxlFile, " fromorder=\"%s\"", xml_string(val));
+	fprintf(gxlFile, " fromorder=\"");
+	xml_puts(gxlFile, val);
+	fprintf(gxlFile, "\"");
     }
     val = agget(e, GXL_TO);
     if (!EMPTY(val)) {
-	fprintf(gxlFile, " toorder=\"%s\"", xml_string(val));
+	fprintf(gxlFile, " toorder=\"");
+	xml_puts(gxlFile, val);
+	fprintf(gxlFile, "\"");
     }
 }
 
@@ -452,7 +365,9 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 		locatorVal += 13;
 
 		tabover(gxlFile);
-		fprintf(gxlFile, "\t<attr name=\"%s\">\n", xml_string(sym->name));
+		fprintf(gxlFile, "\t<attr name=\"");
+		xml_puts(gxlFile, sym->name);
+		fprintf(gxlFile, "\">\n");
 		tabover(gxlFile);
 		fprintf(gxlFile, "\t\t<locator xlink:href=\"");
 		xml_url_puts(gxlFile, locatorVal);
@@ -462,16 +377,26 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 	    } else {
 		tabover(gxlFile);
 		if (isGraph) {
-		    fprintf(gxlFile, "\t<attr name=\"%s\" ", xml_string(sym->name));
-		    fprintf(gxlFile, "kind=\"%s\">\n", xml_string(name));
+		    fprintf(gxlFile, "\t<attr name=\"");
+		    xml_puts(gxlFile, sym->name);
+		    fprintf(gxlFile, "\" ");
+		    fprintf(gxlFile, "kind=\"");
+		    xml_puts(gxlFile, name);
+		    fprintf(gxlFile, "\">\n");
 		}
 		else {
-		    fprintf(gxlFile, "\t<attr name=\"%s:", xml_string(name));
-		    fprintf(gxlFile, "%s\" kind=\"", xml_string(sym->name));
-		    fprintf(gxlFile, "%s\">\n", xml_string(name));
+		    fprintf(gxlFile, "\t<attr name=\"");
+		    xml_puts(gxlFile, name);
+		    fprintf(gxlFile, ":");
+		    xml_puts(gxlFile, sym->name);
+		    fprintf(gxlFile, "\" kind=\"");
+		    xml_puts(gxlFile, name);
+		    fprintf(gxlFile, "\">\n");
 		}
 		tabover(gxlFile);
-		fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(sym->defval));
+		fprintf(gxlFile, "\t\t<string>");
+		xml_puts(gxlFile, sym->defval);
+		fprintf(gxlFile, "</string>\n");
 		tabover(gxlFile);
 		fprintf(gxlFile, "\t</attr>\n");
 	    }
@@ -487,10 +412,16 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 		}
 
 		tabover(gxlFile);
-		fprintf(gxlFile, "\t<attr name=\"%s\" ", xml_string(((sym->name) + GXL_COMP_LEN)));
-		fprintf(gxlFile, "kind=\"%s\">\n", xml_string(name));
+		fprintf(gxlFile, "\t<attr name=\"");
+		xml_puts(gxlFile, sym->name + GXL_COMP_LEN);
+		fprintf(gxlFile, "\" ");
+		fprintf(gxlFile, "kind=\"");
+		xml_puts(gxlFile, name);
+		fprintf(gxlFile, "\">\n");
 		tabover(gxlFile);
-		fprintf(gxlFile, "\t\t%s\n", xml_string(sym->defval));
+		fprintf(gxlFile, "\t\t");
+		xml_puts(gxlFile, sym->defval);
+		fprintf(gxlFile, "\n");
 		tabover(gxlFile);
 		fprintf(gxlFile, "\t</attr>\n");
 	    }
@@ -566,7 +497,9 @@ writeHdr(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile, int top)
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t<attr name=\"name\">\n");
 	tabover(gxlFile);
-	fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(name));
+	fprintf(gxlFile, "\t\t<string>");
+	xml_puts(gxlFile, name);
+	fprintf(gxlFile, "</string>\n");
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t</attr>\n");
     }
@@ -619,7 +552,9 @@ static int writeEdgeName(Agedge_t * e, FILE * gxlFile)
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t<attr name=\"key\">\n");
 	tabover(gxlFile);
-	fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(p));
+	fprintf(gxlFile, "\t\t<string>");
+	xml_puts(gxlFile, p);
+	fprintf(gxlFile, "</string>\n");
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t</attr>\n");
 	rv = TRUE;
@@ -662,8 +597,9 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
 			locatorVal += 13;
 
 			tabover(gxlFile);
-			fprintf(gxlFile, "\t<attr name=\"%s\">\n",
-				xml_string(sym->name));
+			fprintf(gxlFile, "\t<attr name=\"");
+			xml_puts(gxlFile, sym->name);
+			fprintf(gxlFile, "\">\n");
 			tabover(gxlFile);
 			fprintf(gxlFile, "\t\t<locator xlink:href=\"");
 			xml_url_puts(gxlFile, locatorVal);
@@ -672,14 +608,18 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
 			fprintf(gxlFile, "\t</attr>\n");
 		    } else {
 			tabover(gxlFile);
-			fprintf(gxlFile, "\t<attr name=\"%s\"", xml_string(sym->name));
+			fprintf(gxlFile, "\t<attr name=\"");
+			xml_puts(gxlFile, sym->name);
+			fprintf(gxlFile, "\"");
 			if (aghtmlstr(data->str[sym->id])) {
 			  // This is a <…> string. Note this in the kind.
 			  fprintf(gxlFile, " kind=\"HTML-like string\"");
 			}
 			fprintf(gxlFile, ">\n");
 			tabover(gxlFile);
-			fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(data->str[sym->id]));
+			fprintf(gxlFile, "\t\t<string>");
+			xml_puts(gxlFile, data->str[sym->id]);
+			fprintf(gxlFile, "</string>\n");
 			tabover(gxlFile);
 			fprintf(gxlFile, "\t</attr>\n");
 		    }
@@ -690,10 +630,13 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
 		    if (data->str[sym->id] != sym->defval) {
 
 			tabover(gxlFile);
-			fprintf(gxlFile, "\t<attr name=\"%s\">\n",
-				xml_string(((sym->name) + GXL_COMP_LEN)));
+			fprintf(gxlFile, "\t<attr name=\"");
+			xml_puts(gxlFile, sym->name + GXL_COMP_LEN);
+			fprintf(gxlFile, "\">\n");
 			tabover(gxlFile);
-			fprintf(gxlFile, "\t\t%s\n", xml_string(data->str[sym->id]));
+			fprintf(gxlFile, "\t\t");
+			xml_puts(gxlFile, data->str[sym->id]);
+			fprintf(gxlFile, "\n");
 			tabover(gxlFile);
 			fprintf(gxlFile, "\t</attr>\n");
 		    }
@@ -729,7 +672,9 @@ writeNode(gxlstate_t * stp, Agnode_t * n, FILE * gxlFile, Dict_t * d)
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t<attr name=\"name\">\n");
 	tabover(gxlFile);
-	fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(name));
+	fprintf(gxlFile, "\t\t<string>");
+	xml_puts(gxlFile, name);
+	fprintf(gxlFile, "</string>\n");
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t</attr>\n");
     }
@@ -748,9 +693,13 @@ static void writePort(Agedge_t * e, FILE * gxlFile, char *name)
     val = agget(e, name);
     if (val && val[0]) {
 	tabover(gxlFile);
-	fprintf(gxlFile, "\t<attr name=\"%s\">\n", xml_string(name));
+	fprintf(gxlFile, "\t<attr name=\"");
+	xml_puts(gxlFile, name);
+	fprintf(gxlFile, "\">\n");
 	tabover(gxlFile);
-	fprintf(gxlFile, "\t\t<string>%s</string>\n", xml_string(val));
+	fprintf(gxlFile, "\t\t<string>");
+	xml_puts(gxlFile, val);
+	fprintf(gxlFile, "</string>\n");
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t</attr>\n");
     }
