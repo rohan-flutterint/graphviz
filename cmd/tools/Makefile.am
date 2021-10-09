@@ -74,6 +74,7 @@ endif
 gxl2gv_SOURCES = cvtgxl.c gv2gxl.c gxl2gv.c
 
 gxl2gv_LDADD = \
+	$(top_builddir)/lib/gvc/libgvc.la \
 	$(top_builddir)/lib/ingraphs/libingraphs_C.la \
 	$(top_builddir)/lib/cgraph/libcgraph.la \
 	$(top_builddir)/lib/cdt/libcdt.la @EXPAT_LIBS@ 
