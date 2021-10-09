@@ -41,7 +41,7 @@
 typedef struct {
     Agrec_t h;
     int written;
-} Agnodeinfo_t;
+} Local_Agnodeinfo_t;
 
 static int Level;		/* level of tabs */
 static Agsym_t *Tailport, *Headport;
@@ -800,7 +800,7 @@ writeEdge(gxlstate_t * stp, Agedge_t * e, FILE * gxlFile, Dict_t * d)
 }
 
 
-#define writeval(n) (((Agnodeinfo_t*)((n)->base.data))->written)
+#define writeval(n) (((Local_Agnodeinfo_t*)((n)->base.data))->written)
 
 static void writeBody(gxlstate_t * stp, Agraph_t * g, FILE * gxlFile)
 {
@@ -909,7 +909,7 @@ static void freeState(gxlstate_t * stp)
 void gv_to_gxl(Agraph_t * g, FILE * gxlFile)
 {
     gxlstate_t *stp = initState(g);
-    aginit(g, AGNODE, "node", sizeof(Agnodeinfo_t), TRUE);
+    aginit(g, AGNODE, "node", sizeof(Local_Agnodeinfo_t), TRUE);
 
     iterateHdr(stp, g);
     iterateBody(stp, g);
