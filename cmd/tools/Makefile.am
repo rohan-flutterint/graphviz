@@ -387,9 +387,6 @@ EXTRA_DIST = $(man_MANS) $(pdf) bcomps.vcxproj* \
 	gmlscan.c gmlparse.c gmlparse.h gml2gv.vcxproj* \
 	graphml2gv.vcxproj* gv2gml.vcxproj*
 
-# FIXME - these are missing
-#	gv2gxl.vcxproj*
-		
 CLEANFILES = stamp.h 
 
 DISTCLEANFILES = $(pdf) gmlparse.[ch] gmlscan.c \
