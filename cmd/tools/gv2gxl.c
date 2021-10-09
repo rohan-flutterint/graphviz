@@ -8,9 +8,11 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <common/types.h>
+#include <common/utils.h>
 #include "convert.h"
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define SMALLBUF    128
@@ -251,9 +253,16 @@ static char *xml_string(char *s)
     return _xml_string(s,1);
 }
 
-static char *xml_url_string(char *s)
-{
-    return _xml_string(s,0);
+// `fputs` wrapper to handle the difference in calling convention to what
+// `xml_escape`’s `cb` expects
+static inline int put(void *stream, const char *s) {
+  return fputs(s, stream);
+}
+
+// wrapper around `xml_escape` to set flags for URL escaping
+static int xml_url_puts(FILE *f, const char *s) {
+  const xml_flags_t flags = {0};
+  return xml_escape(s, flags, put, f);
 }
 
 static int isGxlGrammar(char *name)
@@ -407,7 +416,9 @@ static void printHref(FILE * gxlFile, void *n)
     val = agget(n, GXL_TYPE);
     if (!EMPTY(val)) {
 	tabover(gxlFile);
-	fprintf(gxlFile, "\t<type xlink:href=\"%s\">\n", xml_url_string(val));
+	fprintf(gxlFile, "\t<type xlink:href=\"");
+	xml_url_puts(gxlFile, val);
+	fprintf(gxlFile, "\">\n");
 	tabover(gxlFile);
 	fprintf(gxlFile, "\t</type>\n");
     }
@@ -443,8 +454,9 @@ writeDict(Agraph_t * g, FILE * gxlFile, char *name, Dict_t * dict,
 		tabover(gxlFile);
 		fprintf(gxlFile, "\t<attr name=\"%s\">\n", xml_string(sym->name));
 		tabover(gxlFile);
-		fprintf(gxlFile, "\t\t<locator xlink:href=\"%s\"/>\n",
-			xml_url_string(locatorVal));
+		fprintf(gxlFile, "\t\t<locator xlink:href=\"");
+		xml_url_puts(gxlFile, locatorVal);
+		fprintf(gxlFile, "\"/>\n");
 		tabover(gxlFile);
 		fprintf(gxlFile, "\t</attr>\n");
 	    } else {
@@ -653,9 +665,9 @@ writeNondefaultAttr(void *obj, FILE * gxlFile, Dict_t * defdict)
 			fprintf(gxlFile, "\t<attr name=\"%s\">\n",
 				xml_string(sym->name));
 			tabover(gxlFile);
-			fprintf(gxlFile,
-				"\t\t<locator xlink:href=\"%s\"/>\n",
-				xml_url_string(locatorVal));
+			fprintf(gxlFile, "\t\t<locator xlink:href=\"");
+			xml_url_puts(gxlFile, locatorVal);
+			fprintf(gxlFile, "\"/>\n");
 			tabover(gxlFile);
 			fprintf(gxlFile, "\t</attr>\n");
 		    } else {
