@@ -24,10 +24,12 @@ portable-source:
         - ./configure --enable-lefty --enable-man-pdfs
         - make dist
         - make dist-xz
+        - python3 ci/export.py --verbose GRAPHVIZ_VERSION
     artifacts:
         when: on_success
         expire_in: 1 week
         paths:
+            - artifacts/*
             - GRAPHVIZ_VERSION
             - COLLECTION
             - graphviz-*.tar.gz
