@@ -68,8 +68,7 @@ def test_gvpr_example(src):
   wd = Path(__file__).parent.parent.resolve()
 
   # run GVPR with the given script
-  with open(os.devnull, "rt") as nul:
-    subprocess.check_call(["gvpr", "-f", path], stdin=nul, cwd=wd)
+  subprocess.check_call(["gvpr", "-f", path], stdin=subprocess.DEVNULL, cwd=wd)
 
 @pytest.mark.skipif(shutil.which("gvpr") is None, reason="GVPR not available")
 # FIXME: Remove skip when
