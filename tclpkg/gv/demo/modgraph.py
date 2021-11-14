@@ -9,7 +9,8 @@ author: Michael Hohn <mhhohn@lbl.gov>
 
 import gv # pylint: disable=import-error
 
-modules = open("/proc/modules", "rt", encoding="utf-8").readlines()
+with open("/proc/modules", "rt", encoding="utf-8") as mod
+  modules = mod.readlines()
 
 G = gv.digraph("G")
 N = gv.protonode(G)
