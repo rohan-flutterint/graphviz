@@ -30,11 +30,12 @@ def generate_vuln_graph(vulnfile, output_type):
 
   output_file = Path("output") / f"{vulnfile}.{output_type[0]}"
   input_file = Path("input") / f"{vulnfile}.dot"
-  process = Popen(["dot", "-T" + output_type[1], "-o", output_file, input_file], stdin=PIPE)
+  with Popen(["dot", "-T" + output_type[1], "-o", output_file, input_file],
+             stdin=PIPE) as process:
 
-  if process.wait() < 0:
-    print(f"An error occurred while generating: {output_file}")
-    sys.exit(1)
+    if process.wait() < 0:
+      print(f"An error occurred while generating: {output_file}")
+      sys.exit(1)
 
 failures = 0
 for v in vulnfiles:

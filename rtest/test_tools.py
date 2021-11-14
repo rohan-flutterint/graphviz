@@ -83,11 +83,11 @@ def test_tools(tool):
   environ_copy.pop("DISPLAY", None)
 
   # Test usage
-  p = subprocess.Popen([tool, "-?"], env=environ_copy, stdin=subprocess.DEVNULL,
-                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                       universal_newlines=True)
-  output, _ = p.communicate()
-  ret = p.returncode
+  with subprocess.Popen([tool, "-?"], env=environ_copy,
+                        stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT, universal_newlines=True) as p:
+    output, _ = p.communicate()
+    ret = p.returncode
 
   # FIXME: https://gitlab.com/graphviz/graphviz/-/issues/1934
   # cope with flaky failures, while also failing if this flakiness has been
@@ -152,7 +152,8 @@ def test_edgepaint_options(arg: str):
 
   # run edgepaint on this
   args = ["edgepaint"] + arg.split(" ")
-  p = subprocess.Popen(args, stdin=subprocess.PIPE, universal_newlines=True)
-  p.communicate(input)
+  with subprocess.Popen(args, stdin=subprocess.PIPE,
+                        universal_newlines=True) as p:
+    p.communicate(input)
 
-  assert p.returncode == 0, f"edgepaint rejected command line option '{arg}'"
+    assert p.returncode == 0, f"edgepaint rejected command line option '{arg}'"

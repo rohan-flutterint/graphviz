@@ -291,13 +291,10 @@ def doTest(test):
             file=sys.stderr)
       continue
 
-    result = subprocess.Popen(
-       testcmd,
-       universal_newlines=True,
-       stderr = subprocess.PIPE,
-    )
-    _, errout = result.communicate()
-    RVAL = result.returncode
+    with subprocess.Popen(testcmd, universal_newlines=True,
+                          stderr=subprocess.PIPE) as result:
+      _, errout = result.communicate()
+      RVAL = result.returncode
 
     if errout:
       print(errout)
