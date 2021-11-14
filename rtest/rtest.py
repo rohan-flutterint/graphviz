@@ -189,7 +189,6 @@ def genOutname(name, alg, fmt):
   and append to basename
   If the last two parameters have been used before, add numeric suffix.
   """
-  global TESTTYPES
   fmt_split = fmt.split(":")
   if len(fmt_split) >= 2:
     F = fmt_split[0]
