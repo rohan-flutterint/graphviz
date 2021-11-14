@@ -124,8 +124,8 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
     return
   if F in ["ps", "ps2"]:
 
-    with open(FILE1, "rt") as src:
-      with open(TMPFILE1, "wt") as dst:
+    with open(FILE1, "rt", encoding="utf-8") as src:
+      with open(TMPFILE1, "wt", encoding="utf-8") as dst:
         done_setup = False
         for line in src:
           if done_setup:
@@ -133,8 +133,8 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
           else:
             done_setup = re.match(r"%%End.*Setup", line) is not None
 
-    with open(FILE2, "rt") as src:
-      with open(TMPFILE2, "wt") as dst:
+    with open(FILE2, "rt", encoding="utf-8") as src:
+      with open(TMPFILE2, "wt", encoding="utf-8") as dst:
         done_setup = False
         for line in src:
           if done_setup:
@@ -144,9 +144,9 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
 
     returncode = 0 if filecmp.cmp(TMPFILE1, TMPFILE2) else -1
   elif F == "svg":
-    with open(FILE1) as f:
+    with open(FILE1, "rt", encoding="utf-8") as f:
       a = re.sub(r"^<!--.*-->$", "", f.read(), flags=re.MULTILINE)
-    with open(FILE2) as f:
+    with open(FILE2, "rt", encoding="utf-8") as f:
       b = re.sub(r"^<!--.*-->$", "", f.read(), flags=re.MULTILINE)
     returncode = 0 if a.strip() == b.strip() else -1
   elif F == "png":
@@ -161,7 +161,7 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
       [DIFFIMG, FILE1, FILE2, os.path.join(OUTHTML, f"dif_{OUTFILE}")],
     )
     if returncode != 0:
-      with open(os.path.join(OUTHTML, "index.html"), mode="a") as fd:
+      with open(os.path.join(OUTHTML, "index.html"), "at", encoding="utf-8") as fd:
         fd.write("<p>\n")
         shutil.copyfile(FILE2, os.path.join(OUTHTML, f"old_{OUTFILE}"))
         fd.write(f'<img src="old_{OUTFILE}" width="192" height="192">\n')
@@ -171,8 +171,8 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
     else:
       os.unlink(os.path.join(OUTHTML, f"dif_{OUTFILE}"))
   else:
-    with open(FILE2) as a:
-      with open(FILE1) as b:
+    with open(FILE2, "rt", encoding="utf-8") as a:
+      with open(FILE1, "rt", encoding="utf-8") as b:
         returncode = 0 if a.read().strip() == b.read().strip() else -1
   if returncode != 0:
     print(f"Test {testname}:{subtest_index} : == Failed == {OUTFILE}", file=sys.stderr)
@@ -224,7 +224,7 @@ def doTest(test):
   if GRAPH == "=":
     INFILE = os.path.join(GRAPHDIR, f"{TESTNAME}.gv")
   elif GRAPH.startswith("graph") or GRAPH.startswith("digraph"):
-    with open(TMPINFILE, mode="w") as fd:
+    with open(TMPINFILE, mode="wt", encoding="utf-8") as fd:
       fd.write(GRAPH)
     INFILE = TMPINFILE
   elif os.path.splitext(GRAPH)[1] == ".gv":
@@ -412,7 +412,7 @@ if not GENERATE:
 #    sys.exit(1)
 
 
-f3 = open(TESTFILE)
+f3 = open(TESTFILE, "rt", encoding="utf-8")
 while True:
   TEST = readTest()
   if TEST is None:

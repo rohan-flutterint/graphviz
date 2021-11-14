@@ -96,7 +96,7 @@ def test_xml_escape():
   with tempfile.TemporaryDirectory() as tmp:
 
     # write a dummy config.h to allow standalone compilation
-    with open(Path(tmp) / "config.h", "wt") as _:
+    with open(Path(tmp) / "config.h", "wt", encoding="utf-8") as _:
       pass
 
     # compile the stub to something we can run

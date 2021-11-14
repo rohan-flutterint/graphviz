@@ -70,7 +70,7 @@ def checksum(path: Path) -> Generator[Path, None, None]:
 
   log.info(f"SHA256 summing {path}")
   check = Path(f"{path}.sha256")
-  with open(check, "wt") as f:
+  with open(check, "wt", encoding="utf-8") as f:
     with open(path, "rb") as data:
       f.write(f"{hashlib.sha256(data.read()).hexdigest()}  {path}\n")
   yield check
@@ -112,7 +112,7 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
   # echo some useful things for debugging
   log.info(f"os.uname(): {os.uname()}")
   if Path("/etc/os-release").exists():
-    with open("/etc/os-release") as f:
+    with open("/etc/os-release", "rt", encoding="utf-8") as f:
       log.info("/etc/os-release:")
       for i, line in enumerate(f, 1):
         log.info(f" {i}: {line[:-1]}")
@@ -125,7 +125,7 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # retrieve version name left by prior CI tasks
   log.info("reading GRAPHVIZ_VERSION")
-  with open("GRAPHVIZ_VERSION") as f:
+  with open("GRAPHVIZ_VERSION", "rt", encoding="utf-8") as f:
     gv_version = f.read().strip()
   log.info(f"GRAPHVIZ_VERSION == {gv_version}")
 
@@ -216,7 +216,7 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   # output JSON data for the website
   log.info(f"dumping {webdata} to graphviz-{options.version}.json")
-  with open(f"graphviz-{options.version}.json", "wt") as f:
+  with open(f"graphviz-{options.version}.json", "wt", encoding="utf-8") as f:
     json.dump(webdata, f, indent=2)
 
   return 0

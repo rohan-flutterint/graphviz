@@ -69,7 +69,7 @@ def main(): # pylint: disable=missing-function-docstring
     platform = f"{os_id.capitalize()} {os_version_id}"
     if platform not in platforms:
       platforms.append(platform)
-    with open(filename, "rt") as fp:
+    with open(filename, "rt", encoding="utf-8") as fp:
       for line in fp.readlines():
         item = [item.strip() for item in line.split(":")]
         if len(item) == 2:

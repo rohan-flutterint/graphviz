@@ -142,7 +142,7 @@ def process(args: List[str], g: Graph, timeout: Optional[int]) -> Result:
     src = Path(tmp) / "input.dot"
 
     # write our test input to a file
-    with open(src, "wt") as f:
+    with open(src, "wt", encoding="utf-8") as f:
       g.serialize(f)
 
     # process this graph
