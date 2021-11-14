@@ -13,6 +13,7 @@ import re
 import shutil
 import subprocess
 import sys
+from typing import TextIO
 import platform
 import argparse
 import atexit
@@ -38,7 +39,7 @@ TMPINFILE = f"tmp{os.getpid()}.gv"
 TMPFILE1 = f"tmpnew{os.getpid()}"
 TMPFILE2 = f"tmpref{os.getpid()}"
 
-def readLine():
+def readLine(f3: TextIO):
   """
   Read single line, storing it in LINE.
   Returns the line on success, else returns None
@@ -48,26 +49,26 @@ def readLine():
     return LINE.strip()
   return None
 
-def skipLines():
+def skipLines(f3: TextIO):
   """
   Skip blank lines and comments (lines starting with #)
   Use first real line as the test name
   """
   while True:
-    LINE = readLine()
+    LINE = readLine(f3)
     if LINE is None:
       return None
     if LINE and not LINE.startswith("#"):
       return LINE
 
-def readSubtests():
+def readSubtests(f3: TextIO):
   """
   Subtests have the form: layout format optional_flags
   Store the 3 parts in the arrays ALG, FMT, FLAGS.
   Stop at a blank line
   """
   while True:
-    LINE = readLine()
+    LINE = readLine(f3)
     if LINE == "":
       return
     if not LINE.startswith("#"):
@@ -78,25 +79,25 @@ def readSubtests():
               "FLAGS": FLAGS0,
             }
 
-def readTest():
+def readTest(f3: TextIO):
   """
   Read and parse a test.
   """
   # read test name
-  LINE = skipLines()
+  LINE = skipLines(f3)
   if LINE is not None:
     TESTNAME = LINE
   else:
     return None
 
   # read input graph
-  LINE = skipLines()
+  LINE = skipLines(f3)
   if LINE is not None:
     GRAPH = LINE
   else:
     return None
 
-  SUBTESTS = list(readSubtests())
+  SUBTESTS = list(readSubtests(f3))
   return {
       "TESTNAME": TESTNAME,
       "GRAPH": GRAPH,
@@ -411,12 +412,12 @@ if not GENERATE:
 #    sys.exit(1)
 
 
-f3 = open(TESTFILE, "rt", encoding="utf-8")
-while True:
-  TEST = readTest()
-  if TEST is None:
-    break
-  doTest(TEST)
+with open(TESTFILE, "rt", encoding="utf-8") as testfile:
+  while True:
+    TEST = readTest(testfile)
+    if TEST is None:
+      break
+    doTest(TEST)
 if NOOP:
   print(f"No. tests: {TOT_CNT}", file=sys.stderr)
 elif GENERATE:
