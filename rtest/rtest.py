@@ -117,10 +117,9 @@ def doDiff(OUTFILE, testname, subtest_index, fmt):
   if platform.system() == "Windows" and \
      F in ["ps", "gv"] and \
      testname in ["clusters", "compound", "rootlabel"]:
-    print("Warning: Skipping {0} output comparison for test {1}:{2} : format "
-          "{3} because the order of clusters in gv or ps output is not "
-          "stable on Windows (#1789)"
-          .format(F, testname, subtest_index, fmt),
+    print(f"Warning: Skipping {F} output comparison for test "
+          f"{testname}:{subtest_index} : format {fmt} because the order of "
+          "clusters in gv or ps output is not stable on Windows (#1789)",
           file=sys.stderr)
     return
   if F in ["ps", "ps2"]:
@@ -337,7 +336,7 @@ if not REFDIR:
   elif platform.system() == "Windows":
     REFDIR = "nshare"
   else:
-    print('Unrecognized system "{0}"'.format(platform.system()), file=sys.stderr)
+    print(f'Unrecognized system "{platform.system()}"', file=sys.stderr)
     REFDIR = "nshare"
 
 parser = argparse.ArgumentParser(description="Run regression tests.")

@@ -43,7 +43,7 @@ def compare_graphs(name, output_type):
         print(line)
 
       # Store diff in file
-      with open("difference/" + str(filename), "w") as diff_file:
+      with open(f"difference/{str(filename)}", "w") as diff_file:
         diff_file.writelines(diff)
 
       print(f"Failure: {filename} - Generated file does not match reference file.")
