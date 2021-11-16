@@ -138,6 +138,9 @@ typedef struct {
 static void 
 free_fitem(Dt_t* d, fitem* p, Dtdisc_t* ds)
 {
+    (void)d;
+    (void)ds;
+
     free (p->ti.str);
     free (p);
 }
