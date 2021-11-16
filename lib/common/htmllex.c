@@ -581,12 +581,13 @@ static htmlimg_t *mkImg(char **atts)
     return img;
 }
 
-static textfont_t *mkFont(GVC_t *gvc, char **atts, int flags)
-{
+static textfont_t *mkFont(GVC_t *gvc, char **atts, unsigned char flags) {
     textfont_t tf = {NULL,NULL,NULL,0.0,0,0};
 
     tf.size = -1.0;		/* unassigned */
-    tf.flags = flags;
+    enum { UINT7_MAX = 127 };
+    assert(flags <= UINT7_MAX);
+    tf.flags = (unsigned char)(flags & UINT7_MAX);
     if (atts)
 	doAttrs(&tf, font_items, sizeof(font_items) / ISIZE, atts, "<FONT>");
 
