@@ -148,6 +148,9 @@ free_fitem(Dt_t* d, fitem* p, Dtdisc_t* ds)
 static void 
 free_fspan(Dt_t* d, fspan* p, Dtdisc_t* ds)
 {
+    (void)d;
+    (void)ds;
+
     textspan_t* ti;
 
     if (p->lp.nitems) {
