@@ -95,6 +95,9 @@ cleanCell (htmlcell_t* cp)
 static void
 free_citem(Dt_t* d, pitem* p,Dtdisc_t* ds)
 {
+  (void)d;
+  (void)ds;
+
   cleanCell (p->u.cp);
   free (p);
 }
