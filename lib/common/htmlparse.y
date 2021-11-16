@@ -46,6 +46,9 @@ static struct {
 static void
 free_ritem(Dt_t* d, pitem* p,Dtdisc_t* ds)
 {
+  (void)d;
+  (void)ds;
+
   dtclose (p->u.rp);
   free (p);
 }
