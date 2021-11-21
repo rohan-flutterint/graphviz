@@ -36,16 +36,16 @@ typedef struct {
 #ifdef HAVE_EXPAT
     XML_Parser parser;
 #endif
-    char* ptr;			/* input source */
-    int tok;			/* token type   */
-    agxbuf* xb;			/* buffer to gather T_string data */
-    agxbuf  lb;			/* buffer for translating lexical data */
-    char warn;			/* set if warning given */
-    char error;			/* set if error given */
-    char inCell;		/* set if in TD to allow T_string */
-    char mode;			/* for handling artificial <HTML>..</HTML> */
-    char *currtok;		/* for error reporting */
-    char *prevtok;		/* for error reporting */
+    char* ptr;         // input source
+    int tok;           // token type
+    agxbuf* xb;        // buffer to gather T_string data
+    agxbuf lb;         // buffer for translating lexical data
+    char warn;         // set if warning given
+    char error;        // set if error given
+    char inCell;       // set if in TD to allow T_string
+    char mode;         // for handling artificial <HTML>..</HTML>
+    char *currtok;     // for error reporting
+    char *prevtok;     // for error reporting
     size_t currtoklen;
     size_t prevtoklen;
 } lexstate_t;
