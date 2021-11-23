@@ -464,12 +464,11 @@ windows-cygwin-build:
         - job: portable-source
           artifacts: true
     script:
-        # change line endings from crlf to lf
-        - git rm --cached -r .
-        - git -c core.autocrlf=false reset --hard
         - choco config set cacheLocation choco-cache
         - choco install --yes --no-progress cygwin
         - $Env:build_system = "autotools"
+        # change shell script line endings from CRLF to LF
+        - C:\tools\cygwin\bin\sed -i 's/\r//g' ci/*.sh
         # change line endings from crlf to lf by git checkout
         - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
     artifacts:
@@ -491,9 +490,6 @@ windows-cygwin-build-using-autogen:
     stage: build
     needs: []
     script:
-        # change line endings from crlf to lf
-        - git rm --cached -r .
-        - git -c core.autocrlf=false reset --hard
         - choco config set cacheLocation choco-cache
         - choco install --yes --no-progress cygwin
         - choco install --yes --no-progress --params "/InstallDir:C:\Python3" python3
@@ -502,6 +498,8 @@ windows-cygwin-build-using-autogen:
         - python gen_version.py | Out-File GRAPHVIZ_VERSION -Encoding ascii
         - $Env:build_system = "autotools"
         - $Env:use_autogen = "yes"
+        # change shell script line endings from CRLF to LF
+        - C:\tools\cygwin\bin\sed -i 's/\r//g' autogen.sh ci/*.sh lib/common/color_names lib/common/brewer_colors lib/common/svgcolor_names
         - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
     artifacts:
         when: always
@@ -844,12 +842,11 @@ windows-cygwin-cmake-build:
     stage: build
     needs: []
     script:
-        # change line endings from crlf to lf
-        - git rm --cached -r .
-        - git -c core.autocrlf=false reset --hard
         - choco config set cacheLocation choco-cache
         - choco install --yes --no-progress cygwin
         - $Env:build_system = "cmake"
+        # change shell script line endings from CRLF to LF
+        - C:\tools\cygwin\bin\sed -i 's/\r//g' ci/*.sh lib/common/color_names lib/common/brewer_colors lib/common/svgcolor_names
         - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
     artifacts:
         when: always
