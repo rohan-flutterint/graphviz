@@ -22,6 +22,7 @@ set -eux
 /cygwinsetup.exe --quiet-mode --wait --packages ccache
 export CC="ccache ${CC:-cc}"
 export CXX="ccache ${CXX:-c++}"
+export CCACHE_DIR=ccache-cache
 
 # use the libs installed with cygwinsetup instead of those in
 # https://gitlab.com/graphviz/graphviz-windows-dependencies

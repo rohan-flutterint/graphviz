@@ -481,6 +481,7 @@ windows-cygwin-build:
     cache:
         key: windows-cygwin-build
         paths:
+            - ccache-cache
             - choco-cache
     tags:
         - windows
@@ -511,6 +512,7 @@ windows-cygwin-build-using-autogen:
     cache:
         key: windows-cygwin-build-using-autogen
         paths:
+            - ccache-cache
             - choco-cache
     tags:
         - windows
@@ -860,6 +862,7 @@ windows-cygwin-cmake-build:
     cache:
         key: windows-cygwin-cmake-build
         paths:
+            - ccache-cache
             - choco-cache
     tags:
         - windows
