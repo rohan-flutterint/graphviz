@@ -2,7 +2,7 @@
 
 [![build status](https://gitlab.com/graphviz/graphviz/badges/main/pipeline.svg)](https://gitlab.com/graphviz/graphviz/-/pipelines/)
 
-from AT&T Research and Lucent Bell Labs
+from AT&amp;T Research and Lucent Bell Labs
 
 * https://graphviz.org/
 
