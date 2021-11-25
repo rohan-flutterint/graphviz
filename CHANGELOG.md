@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MD5 checksums of release artifacts are no longer provided. SHA256 checksums
   are still provided and these should be used instead.
 - when cross-compiling, the `dot -c` is no longer run during installation
+- `$CMAKE_INCLUDE_PATH` is no longer manually configured in the CMake build
+  system
 
 ### Fixed
 
