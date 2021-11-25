@@ -26,7 +26,7 @@ build_system=${build_system:-autotools}
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
     pushd build
-    cmake ${CMAKE_OPTIONS:-} ..
+    cmake --log-level=VERBOSE ${CMAKE_OPTIONS:-} ..
     cmake --build .
     cpack
     popd
