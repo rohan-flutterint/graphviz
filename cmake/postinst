@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# DEB post-installation script
+
+# register plugins
+dot -c

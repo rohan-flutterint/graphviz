@@ -20,6 +20,8 @@ elseif (UNIX)
             file(READ "/etc/os-release" OS_RELEASE)
             if ("${OS_RELEASE}" MATCHES "ID_LIKE=debian")
                 LIST(APPEND CPACK_GENERATOR DEB)
+                set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+                  "${TOP_SOURCE_DIR}/cmake/postinst")
             else()
                 LIST(APPEND CPACK_GENERATOR RPM)
                 set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE
