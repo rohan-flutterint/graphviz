@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - when cross-compiling, the `dot -c` is no longer run during installation
 - `$CMAKE_INCLUDE_PATH` is no longer manually configured in the CMake build
   system
+- on Linux, the CMake build system uses the standard `GNUInstallDirs` to locate
+  target installation paths
 
 ### Fixed
 
@@ -35,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   to match the implementation
 - xdot JSON output is not valid JSON #1958
 - fix uninitialized read of `pid` in `_sfpopen` on Windows
+- CMAKE_LIBRARY_PATH is not honored #1973
 
 ## [2.49.3] – 2021-10-22
 

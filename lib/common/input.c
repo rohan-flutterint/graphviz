@@ -61,7 +61,7 @@ static char *memtestItems = "\n\
 
 static char *configFlags = "(additional options for config)  [-cv]\n";
 static char *configItems = "\n\
- -c          - Configure plugins (Writes $prefix/lib/graphviz/config \n\
+ -c          - Configure plugins (Writes ${LIBRARY_INSTALL_DIR}/graphviz/config \n\
                with available plugin information.  Needs write privilege.)\n\
  -?          - Print usage and exit\n";
 
