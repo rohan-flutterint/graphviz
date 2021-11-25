@@ -27,10 +27,12 @@
 
 set(ROOT $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX})
 
+message(STATUS "here install dir is ${LIBRARY_INSTALL_DIR}")
+message(STATUS "here root is ${ROOT}")
 if (APPLE)
   set(ENV{DYLD_LIBRARY_PATH} "${ROOT}/${LIBRARY_INSTALL_DIR}")
 elseif (UNIX)
-  set(ENV{LD_LIBRARY_PATH} "${ROOT}/lib")
+  set(ENV{LD_LIBRARY_PATH} "${ROOT}/lib64")
 endif()
 
 execute_process(
