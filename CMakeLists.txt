@@ -94,8 +94,6 @@ if (WIN32)
         list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_DIR})
         list(APPEND CMAKE_PREFIX_PATH ${WINDOWS_DEPENDENCY_VCPKG_DIR})
     endif()
-else()
-    list(APPEND CMAKE_INCLUDE_PATH /usr/lib /usr/local/lib /usr/lib/x86_64-linux-gnu)
 endif()
 
 find_package(ANN)
