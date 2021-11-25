@@ -27,10 +27,19 @@
 
 set(ROOT $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX})
 
+# logic from the root CMakeLists.txt for finding the library directory does not
+# propagate to here, so we need to repeat discovery
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  include(GNUInstallDirs)
+  set(LIBRARY_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
+else()
+  set(LIBRARY_INSTALL_DIR lib)
+endif()
+
 if (APPLE)
   set(ENV{DYLD_LIBRARY_PATH} "${ROOT}/${LIBRARY_INSTALL_DIR}")
 elseif (UNIX)
-  set(ENV{LD_LIBRARY_PATH} "${ROOT}/lib64")
+  set(ENV{LD_LIBRARY_PATH} "${ROOT}/${LIBRARY_INSTALL_DIR}")
 endif()
 
 execute_process(
