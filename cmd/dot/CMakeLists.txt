@@ -117,8 +117,10 @@ if(NOT CMAKE_CROSSCOMPILING)
   if(APPLE)
     install(CODE "execute_process(COMMAND env DYLD_LIBRARY_PATH=\"${LIBRARY_INSTALL_DIR}\" ${ROOT}/bin/dot -c)")
   elseif(UNIX)
-    install(CODE "execute_process(COMMAND env LD_LIBRARY_PATH=\"${LIBRARY_INSTALL_DIR}\" ${ROOT}/bin/dot -c)")
+    #install(CODE "execute_process(COMMAND env LD_LIBRARY_PATH=\"${LIBRARY_INSTALL_DIR}\" ${ROOT}/bin/dot -c)")
   else()
-    install(CODE "execute_process(COMMAND ${ROOT}/bin/dot -c)")
+    install(CODE "execute_process(COMMAND dot -c
+                                  WORKING_DIRECTORY \"${ROOT}/bin\"
+                                  COMMAND_ECHO STDOUT)")
   endif()
 endif()

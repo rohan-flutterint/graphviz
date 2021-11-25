@@ -22,6 +22,8 @@ elseif (UNIX)
                 LIST(APPEND CPACK_GENERATOR DEB)
             else()
                 LIST(APPEND CPACK_GENERATOR RPM)
+                set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE
+                  "${TOP_SOURCE_DIR}/cmake/postinst-rpm.sh")
             endif()
         endif()
     endif()
