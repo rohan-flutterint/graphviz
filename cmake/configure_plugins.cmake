@@ -34,6 +34,7 @@ execute_process(
 execute_process(
   COMMAND echo "CMAKE_SYSTEM_NAME is ${CMAKE_SYSTEM_NAME}")
 if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Linux")
+  set(CMAKE_SYSTEM_NAME "${CMAKE_HOST_SYSTEM_NAME}")
   include(GNUInstallDirs)
   set(LIBRARY_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
 else()
