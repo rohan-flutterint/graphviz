@@ -113,6 +113,7 @@ else()
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
+  set(ENV{LIBRARY_INSTALL_DIR} "${LIBRARY_INSTALL_DIR}")
   install(
       SCRIPT ../../cmake/configure_plugins.cmake
   )
