@@ -113,8 +113,12 @@ else()
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
-  set(ENV{LIBRARY_INSTALL_DIR} "${LIBRARY_INSTALL_DIR}")
-  install(
-      SCRIPT ../../cmake/configure_plugins.cmake
-  )
+  set(ROOT $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX})
+  if(APPLE)
+    install(CODE "execute_process(COMMAND env DYLD_LIBRARY_PATH=\"${LIBRARY_INSTALL_DIR}\" ${ROOT}/bin/dot -c)")
+  elseif(UNIX)
+    install(CODE "execute_process(COMMAND env LD_LIBRARY_PATH=\"${LIBRARY_INSTALL_DIR}\" ${ROOT}/bin/dot -c)")
+  else()
+    install(CODE "execute_process(COMMAND ${ROOT}/bin/dot -c)")
+  endif()
 endif()
