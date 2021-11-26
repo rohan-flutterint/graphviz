@@ -31,7 +31,7 @@ typedef enum {
 
 static void gd_freeimage(usershape_t *us)
 {
-    gdImageDestroy((gdImagePtr)us->data);
+    gdImageDestroy(us->data);
 }
 
 static gdImagePtr gd_loadimage(GVJ_t * job, usershape_t *us)
@@ -61,28 +61,28 @@ static gdImagePtr gd_loadimage(GVJ_t * job, usershape_t *us)
 #endif
 #ifdef HAVE_GD_PNG
 	    case FT_PNG:
-		us->data = (void*)gdImageCreateFromPng(us->f);
+		us->data = gdImageCreateFromPng(us->f);
 		break;
 #endif
 #ifdef HAVE_GD_GIF
 	    case FT_GIF:
-		us->data = (void*)gdImageCreateFromGif(us->f);
+		us->data = gdImageCreateFromGif(us->f);
 		break;
 #endif
 #ifdef HAVE_GD_JPEG
 	    case FT_JPEG:
-		us->data = (void*)gdImageCreateFromJpeg(us->f);
+		us->data = gdImageCreateFromJpeg(us->f);
 		break;
 #endif
 #if 0
 #ifdef HAVE_GD_XPM
 	    case FT_XPM:
-		us->data = (void*)gdImageCreateFromXpm(us->f);
+		us->data = gdImageCreateFromXpm(us->f);
 		break;
 #endif
 #ifdef HAVE_GD_WBMP
 	    case FT_WBMP:
-		us->data = (void*)gdImageCreateFromWbmp(us->f);
+		us->data = gdImageCreateFromWbmp(us->f);
 		break;
 #endif
 #endif
@@ -94,7 +94,7 @@ static gdImagePtr gd_loadimage(GVJ_t * job, usershape_t *us)
 
 	gvusershape_file_release(us);
     }
-    return (gdImagePtr)(us->data);
+    return us->data;
 }
 
 static gdImagePtr gd_rotateimage(gdImagePtr im, int rotation)
