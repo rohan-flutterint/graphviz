@@ -52,7 +52,7 @@ typedef struct gs_s {
 
 static void gvloadimage_gs_free(usershape_t *us)
 {
-    gs_t *gs = (gs_t*)us->data;
+    gs_t *gs = us->data;
 
     if (gs->pattern) cairo_pattern_destroy(gs->pattern);
     if (gs->surface) cairo_surface_destroy(gs->surface);
@@ -172,7 +172,7 @@ static cairo_pattern_t* gvloadimage_gs_load(GVJ_t * job, usershape_t *us)
     if (us->data) {
         if (us->datafree == gvloadimage_gs_free
 	&& ((gs_t*)(us->data))->cr == (cairo_t *)job->context)
-	    gs = (gs_t*)(us->data); /* use cached data */
+	    gs = us->data; /* use cached data */
 	else {
 	    us->datafree(us);        /* free incompatible cache data */
 	    us->data = NULL;
@@ -189,7 +189,7 @@ static cairo_pattern_t* gvloadimage_gs_load(GVJ_t * job, usershape_t *us)
 	gs->pattern = NULL;
 
 	/* cache this - even if things go bad below - avoids repeats */
-	us->data = (void*)gs;
+	us->data = gs;
 	us->datafree = gvloadimage_gs_free;
 
 #define GSAPI_REVISION_REQUIRED 863
