@@ -210,7 +210,7 @@ on_drawingarea1_expose_event           (GtkWidget       *widget,
 
     (job->callbacks->motion)(job, job->pointer);
 
-    job->context = (void *)cr;
+    job->context = cr;
     job->external_context = TRUE;
     job->width = widget->allocation.width;
     job->height = widget->allocation.height;
@@ -275,7 +275,7 @@ on_drawingarea2_expose_event           (GtkWidget       *widget,
 
     (job->callbacks->motion)(job, job->pointer);
 
-    job->context = (void *)cr;
+    job->context = cr;
     job->external_context = TRUE;
     job->width = widget->allocation.width;
     job->height = widget->allocation.height;
