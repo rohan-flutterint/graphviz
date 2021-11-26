@@ -235,8 +235,7 @@ static void gvconfig_plugin_install_builtins(GVC_t * gvc)
 
     for (s = gvc->common.builtins; (name = s->name); s++)
 	if (name[0] == 'g' && strstr(name, "_LTX_library")) 
-	    gvconfig_plugin_install_from_library(gvc, NULL,
-		    (gvplugin_library_t *)(s->address));
+	    gvconfig_plugin_install_from_library(gvc, NULL, s->address);
 }
 
 #ifdef ENABLE_LTDL
