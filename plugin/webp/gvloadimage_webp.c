@@ -74,13 +74,13 @@ static cairo_surface_t* webp_really_loadimage(const char *in_file, FILE* const i
         return NULL;
     }
 
-    status = WebPGetFeatures((const uint8_t*)data, data_size, bitstream);
+    status = WebPGetFeatures(data, data_size, bitstream);
     if (status != VP8_STATUS_OK) {
 	goto end;
     }
 
     output_buffer->colorspace = MODE_RGBA;
-    status = WebPDecode((const uint8_t*)data, data_size, &config);
+    status = WebPDecode(data, data_size, &config);
 
     /* FIXME - this is ugly */
     if (! bitstream->has_alpha) {
