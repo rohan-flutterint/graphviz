@@ -193,22 +193,7 @@ on_about1_activate                     (GtkMenuItem     *menuitem,
 static void
 load_store_with_attrs(GtkListStore *model, GVJ_t *job)
 {
-#if 0
-        gint attrs_len = job->selected_obj_attributes.argc, i;
-        gchar **attrs = job->selected_obj_attributes.argv;
-        GtkTreeIter iter;
-        gvattr_t type;
-#endif
-
         gtk_list_store_clear(model);
-
-#if 0
-        for (i = 0; i < attrs_len; i+=3) {
-                gtk_list_store_append(model, &iter);
-                gtk_list_store_set(model, &iter, 0, attrs[i], 1, g_strdup(attrs[i+1]), -1);
-                type = (gvattr_t)attrs[i+2];
-        }
-#endif
 }
 
 
@@ -260,11 +245,6 @@ on_drawingarea1_motion_notify_event    (GtkWidget       *widget,
     job->pointer.x = event->x;
     job->pointer.y = event->y;
     gtk_widget_queue_draw(widget);
-
-#if 0
-    if (job->active_tooltip && job->active_tooltip[0])
-	fprintf(stderr,"tooltip = \"%s\"\n", job->active_tooltip);
-#endif
 
     return FALSE;
 }
