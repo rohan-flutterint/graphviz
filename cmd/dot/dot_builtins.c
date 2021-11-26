@@ -33,17 +33,17 @@ IMPORT extern gvplugin_library_t gvplugin_core_LTX_library;
 
 
 lt_symlist_t lt_preloaded_symbols[] = {
-	{ "gvplugin_dot_layout_LTX_library", (void*)(&gvplugin_dot_layout_LTX_library) },
-	{ "gvplugin_neato_layout_LTX_library", (void*)(&gvplugin_neato_layout_LTX_library) },
+	{ "gvplugin_dot_layout_LTX_library", &gvplugin_dot_layout_LTX_library },
+	{ "gvplugin_neato_layout_LTX_library", &gvplugin_neato_layout_LTX_library },
 #ifdef HAVE_PANGOCAIRO
-	{ "gvplugin_pango_LTX_library", (void*)(&gvplugin_pango_LTX_library) },
+	{ "gvplugin_pango_LTX_library", &gvplugin_pango_LTX_library },
 #ifdef HAVE_WEBP
-	{ "gvplugin_webp_LTX_library", (void*)(&gvplugin_webp_LTX_library) },
+	{ "gvplugin_webp_LTX_library", &gvplugin_webp_LTX_library },
 #endif
 #endif
 #ifdef HAVE_LIBGD
-	{ "gvplugin_gd_LTX_library", (void*)(&gvplugin_gd_LTX_library) },
+	{ "gvplugin_gd_LTX_library", &gvplugin_gd_LTX_library },
 #endif
-	{ "gvplugin_core_LTX_library", (void*)(&gvplugin_core_LTX_library) },
+	{ "gvplugin_core_LTX_library", &gvplugin_core_LTX_library },
 	{ 0, 0 }
 };
