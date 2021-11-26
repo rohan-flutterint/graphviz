@@ -508,57 +508,6 @@ void getdouble(graph_t * g, char *name, double *result)
     }
 }
 
-#ifdef EXPERIMENTAL_MYFGETS
-/*
- * Potential input filter - e.g. for iconv 
- */
-
-/*
- * myfgets - same api as fgets
- * 
- * gets n chars at a time
- *
- * returns pointer to user buffer,
- * or returns NULL on eof or error.
- */
-static char *myfgets(char * ubuf, int n, FILE * fp)
-{
-    static char *buf;
-    static int bufsz, pos, len;
-    int cnt;
-
-    if (!n) {                   /* a call with n==0 (from aglexinit) resets */
-        ubuf[0] = '\0';
-        pos = len = 0;
-        return NULL;
-    }
-
-    if (!len) {
-	if (n > bufsz) {
-	    bufsz = n;
-	    buf = realloc(buf, bufsz);
-	}
-	if (!(fgets(buf, bufsz, fp))) {
-            ubuf[0] = '\0';
-            return NULL;
-        }
-	len = strlen(buf);
-	pos = 0;
-    }
-
-    cnt = n - 1;
-    if (len < cnt)
-	cnt = len;
-
-    memcpy(ubuf, buf + pos, cnt);
-    pos += cnt;
-    len -= cnt;
-    ubuf[cnt] = '\0';
-
-    return ubuf;
-}
-#endif
-
 graph_t *gvNextInputGraph(GVC_t *gvc)
 {
     graph_t *g = NULL;
@@ -586,11 +535,7 @@ graph_t *gvNextInputGraph(GVC_t *gvc)
 	    agsetfile(fn ? fn : "<stdin>");
 	    oldfp = fp;
 	}
-#ifdef EXPERIMENTAL_MYFGETS
-	g = agread_usergets(fp, myfgets);
-#else
 	g = agread(fp,NULL);
-#endif
 	if (g) {
 	    gvg_init(gvc, g, fn, gidx++);
 	    break;
