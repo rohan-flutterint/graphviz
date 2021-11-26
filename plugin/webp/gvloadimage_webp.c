@@ -43,7 +43,7 @@ typedef enum {
 
 static void webp_freeimage(usershape_t *us)
 {
-    cairo_surface_destroy((cairo_surface_t*)(us->data));
+    cairo_surface_destroy(us->data);
 }
 
 static cairo_surface_t* webp_really_loadimage(const char *in_file, FILE* const in)
@@ -128,7 +128,7 @@ static cairo_surface_t* webp_loadimage(GVJ_t * job, usershape_t *us)
 
     if (us->data) {
         if (us->datafree == webp_freeimage)
-             surface = (cairo_surface_t*)(us->data); /* use cached data */
+             surface = us->data; /* use cached data */
         else {
              us->datafree(us);        /* free incompatible cache data */
              us->datafree = NULL;
@@ -147,7 +147,7 @@ static cairo_surface_t* webp_loadimage(GVJ_t * job, usershape_t *us)
                 surface = NULL;
         }
         if (surface) {
-            us->data = (void*)surface;
+            us->data = surface;
             us->datafree = webp_freeimage;
         }
 	gvusershape_file_release(us);
