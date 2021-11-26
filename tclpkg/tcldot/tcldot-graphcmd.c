@@ -327,18 +327,6 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
 	    canvas = "$c";
 	} else {
 	    canvas = argv[2];
-#if 0				/* not implemented */
-	    if (argc < 4) {
-		tkgendata.eval = FALSE;
-	    } else {
-		if ((Tcl_GetBoolean(interp, argv[3], &tkgendata.eval)) !=
-		    TCL_OK) {
-		    Tcl_AppendResult(interp, " Invalid boolean: \"",
-				     argv[3], "\"", NULL);
-		    return TCL_ERROR;
-		}
-	    }
-#endif
 	}
         rc = gvjobs_output_langname(gvc, "tk");
 	if (rc == NO_SUPPORT) {
@@ -366,52 +354,6 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
 	fflush(job->output_file);
 	gvjobs_delete(gvc);
 	return TCL_OK;
-
-#if 0
-#if HAVE_LIBGD
-    } else if (MATCHES_OPTION("rendergd", argv[1], c, length)) {
-#if 0
-	void **hdl;
-#endif
-
-	if (argc < 3) {
-	    Tcl_AppendResult(interp, "wrong # args: should be \"", argv[0],
-			     " rendergd gdhandle ?DOT|NEATO|TWOPI|FDP|CIRCO?\"", NULL);
-	    return TCL_ERROR;
-	}
-	rc = gvjobs_output_langname(gvc, "gd:gd:gd");
-	if (rc == NO_SUPPORT) {
-	    Tcl_AppendResult(interp, " Format: \"gd\" not recognized.\n", NULL);
-	    return TCL_ERROR;
-	}
-        job = gvc->job;
-
-#if 0
-	if (!  (hdl = tclhandleXlate(GDHandleTable, argv[2]))) {
-	    Tcl_AppendResult(interp, "GD Image not found.", NULL);
-	    return TCL_ERROR;
-	}
-	job->context = *hdl;
-#else
-	job->context = (void*)(((Tcl_Obj*)(argv[2]))->internalRep.otherValuePtr);
-#endif
-	job->external_context = TRUE;
-
-	/* make sure that layout is done */
-	g = agroot(g);
-	if (!aggetrec (g, "Agraphinfo_t",0) || argc > 4)
-	    tcldot_layout(gvc, g, (argc > 4) ? argv[4] : NULL);
-	
-	gvc->common.viewNum = 0;
-	gvRenderJobs(gvc, g);
-	gvrender_end_job(job);
-	gvdevice_finalize(job);
-	fflush(job->output_file);
-	gvjobs_delete(gvc);
-	Tcl_AppendResult(interp, argv[2], NULL);
-	return TCL_OK;
-#endif
-#endif
 
     } else if (MATCHES_OPTION("setattributes", argv[1], c, length)) {
 	if (argc == 3) {
@@ -552,7 +494,6 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
 	gvc->common.viewNum = 0;
 	gvRenderJobs(gvc, g);
 	gvdevice_finalize(job);
-//	fflush(job->output_file);
 	gvjobs_delete(gvc);
 	return TCL_OK;
 
