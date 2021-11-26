@@ -456,7 +456,7 @@ LIBS=$save_LIBS
 # -----------------------------------
 
 # Checks for library functions
-AC_CHECK_FUNCS([lrand48 drand48 srand48 setmode setenv getenv \
+AC_CHECK_FUNCS([lrand48 drand48 srand48 setmode setenv \
 	getpagesize \
   ftruncate lseek64 stat64 select dl_iterate_phdr])
 

@@ -96,9 +96,6 @@
 /* Define if the GD library supports XPM */
 /* #undef HAVE_GD_XPM */
 
-/* Define to 1 if you have the `getenv' function. */
-#define HAVE_GETENV 1
-
 /* Define if you have the glade library */
 #define HAVE_GLADE 1
 
