@@ -102,9 +102,9 @@ static void gdk_set_mimedata(cairo_surface_t *image, usershape_t *us)
 static void gdk_freeimage(usershape_t *us)
 {
 #ifndef HAVE_CAIRO_SURFACE_SET_MIME_DATA
-    g_object_unref((GdkPixbuf*)(us->data));
+    g_object_unref(us->data);
 #else /* HAVE_CAIRO_SURFACE_SET_MIME_DATA */
-    cairo_surface_destroy ((cairo_surface_t *)(us->data));
+    cairo_surface_destroy(us->data);
 #endif /* HAVE_CAIRO_SURFACE_SET_MIME_DATA */
 }
 
@@ -130,7 +130,7 @@ static cairo_surface_t* gdk_loadimage(GVJ_t * job, usershape_t *us)
     if (us->data) {
 #ifndef HAVE_CAIRO_SURFACE_SET_MIME_DATA
         if (us->datafree == gdk_freeimage)
-             image = (GdkPixbuf*)(us->data); /* use cached data */
+             image = us->data; /* use cached data */
         else {
              us->datafree(us);        /* free incompatible cache data */
              us->datafree = NULL;
@@ -171,7 +171,7 @@ static cairo_surface_t* gdk_loadimage(GVJ_t * job, usershape_t *us)
 #endif /* HAVE_CAIRO_SURFACE_SET_MIME_DATA */
         if (image) {
 #ifndef HAVE_CAIRO_SURFACE_SET_MIME_DATA
-            us->data = (void*)image;
+            us->data = image;
 #else /* HAVE_CAIRO_SURFACE_SET_MIME_DATA */
             cairo_save (cr);
             gdk_cairo_set_source_pixbuf (cr, image, 0, 0);
@@ -181,7 +181,7 @@ static cairo_surface_t* gdk_loadimage(GVJ_t * job, usershape_t *us)
             cairo_image = cairo_surface_reference (cairo_image);
             cairo_restore (cr);
             gdk_set_mimedata (cairo_image, us);
-            us->data = (void*)cairo_surface_reference (cairo_image);
+            us->data = cairo_surface_reference(cairo_image);
 #endif /* HAVE_CAIRO_SURFACE_SET_MIME_DATA */
             us->datafree = gdk_freeimage;
         }
