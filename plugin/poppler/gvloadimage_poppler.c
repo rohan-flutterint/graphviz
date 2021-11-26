@@ -27,7 +27,7 @@ typedef enum {
 
 static void gvloadimage_poppler_free(usershape_t *us)
 {
-    g_object_unref((PopplerDocument*)us->data);
+    g_object_unref(us->data);
 }
 
 static PopplerDocument* gvloadimage_poppler_load(GVJ_t * job, usershape_t *us)
@@ -43,7 +43,7 @@ static PopplerDocument* gvloadimage_poppler_load(GVJ_t * job, usershape_t *us)
 
     if (us->data) {
         if (us->datafree == gvloadimage_poppler_free)
-             document = (PopplerDocument*)(us->data); /* use cached data */
+             document = us->data; /* use cached data */
         else {
              us->datafree(us);        /* free incompatible cache data */
              us->data = NULL;
@@ -94,7 +94,7 @@ static PopplerDocument* gvloadimage_poppler_load(GVJ_t * job, usershape_t *us)
         }
 
         if (document) {
-            us->data = (void*)document;
+            us->data = document;
             us->datafree = gvloadimage_poppler_free;
         }
 
