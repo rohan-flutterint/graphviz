@@ -65,7 +65,7 @@ extern Dt_t * textfont_dict_open(GVC_t *gvc);
 
 /*
     A config for gvrender is a text file containing a
-    list of plugin librariess and their capabilities using a tcl-like
+    list of plugin libraries and their capabilities using a tcl-like
     syntax
 
     Lines beginning with '#' are ignored as comments
