@@ -146,7 +146,7 @@ SparseMatrix SparseMatrix_import_matrix_market(FILE * f, int format)
 	    } else {
 		assert(!mm_is_hermitian(matcode));
 	    }
-	    vp = (void *) val;
+	    vp = val;
 	    break;
 	case MATRIX_TYPE_INTEGER:
 	    vali = malloc(nz * sizeof(int));
@@ -181,7 +181,7 @@ SparseMatrix SparseMatrix_import_matrix_market(FILE * f, int format)
 	    } else {
 		assert(!mm_is_hermitian(matcode));
 	    }
-	    vp = (void *) vali;
+	    vp = vali;
 	    break;
 	case MATRIX_TYPE_PATTERN:
 	    for (i = 0; i < nz; i++) {
@@ -255,7 +255,7 @@ SparseMatrix SparseMatrix_import_matrix_market(FILE * f, int format)
 		    }
 		}
 	    }
-	    vp = (void *) val;
+	    vp = val;
 	    break;
 	default:
 	    return 0;
