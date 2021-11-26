@@ -19,7 +19,7 @@ static void *myiddisc_open(Agraph_t *g, Agdisc_t *disc) {
     gctx = malloc(sizeof(gctx_t));
     gctx->g = g;
     gctx->ictx = ictx;
-    return (void *)gctx;
+    return gctx;
 }
 static long myiddisc_map(void *state, int objtype, char *str, uint64_t *id, int createflag) {
     (void)objtype;
