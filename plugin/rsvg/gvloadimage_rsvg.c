@@ -30,7 +30,7 @@ typedef enum {
 
 static void gvloadimage_rsvg_free(usershape_t *us)
 {
-    rsvg_handle_close((RsvgHandle*)us->data, NULL);
+    rsvg_handle_close(us->data, NULL);
 }
 
 static RsvgHandle* gvloadimage_rsvg_load(GVJ_t * job, usershape_t *us)
@@ -50,7 +50,7 @@ static RsvgHandle* gvloadimage_rsvg_load(GVJ_t * job, usershape_t *us)
 
     if (us->data) {
         if (us->datafree == gvloadimage_rsvg_free)
-             rsvgh = (RsvgHandle*)(us->data); /* use cached data */
+             rsvgh = us->data; /* use cached data */
         else {
              us->datafree(us);        /* free incompatible cache data */
              us->data = NULL;
@@ -158,7 +158,7 @@ static RsvgHandle* gvloadimage_rsvg_load(GVJ_t * job, usershape_t *us)
         }
 
         if (rsvgh) {
-            us->data = (void*)rsvgh;
+            us->data = rsvgh;
             us->datafree = gvloadimage_rsvg_free;
         }
 
