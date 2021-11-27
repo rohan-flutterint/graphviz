@@ -37,8 +37,8 @@ Edge *gvbisect(Site * s1, Site * s2)
     newedge->reg[1] = s2;
     ref(s1);
     ref(s2);
-    newedge->ep[0] = (Site *) NULL;
-    newedge->ep[1] = (Site *) NULL;
+    newedge->ep[0] = NULL;
+    newedge->ep[1] = NULL;
 
     dx = s2->coord.x - s1->coord.x;
     dy = s2->coord.y - s1->coord.y;
@@ -87,7 +87,7 @@ void clip_line(Edge * e)
     }
 
     if (e->a == 1.0) {
-	if (s1 != (Site *) NULL) {
+	if (s1 != NULL) {
 	    y1 = s1->coord.y;
 	    if (y1 > pymax)
 		return;
@@ -102,7 +102,7 @@ void clip_line(Edge * e)
 	    x1 = e->c - e->b * y1;
 	}
 
-	if (s2 != (Site *) NULL) {
+	if (s2 != NULL) {
 	    y2 = s2->coord.y;
 	    if (y2 < pymin)
 		return;
@@ -136,7 +136,7 @@ void clip_line(Edge * e)
 	    y2 = (e->c - x2) / e->b;
 	};
     } else {
-	if (s1 != (Site *) NULL) {
+	if (s1 != NULL) {
 	    x1 = s1->coord.x;
 	    if (x1 > pxmax)
 		return;
@@ -151,7 +151,7 @@ void clip_line(Edge * e)
 	    y1 = e->c - e->a * x1;
 	}
 
-	if (s2 != (Site *) NULL) {
+	if (s2 != NULL) {
 	    x2 = s2->coord.x;
 	    if (x2 < pxmin)
 		return;
@@ -197,7 +197,7 @@ void endpoint(Edge * e, int lr, Site * s)
 {
     e->ep[lr] = s;
     ref(s);
-    if (e->ep[re - lr] == (Site *) NULL)
+    if (e->ep[re - lr] == NULL)
 	return;
     clip_line(e);
 #ifdef STANDALONE
