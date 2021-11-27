@@ -42,8 +42,8 @@ Edge *gvbisect(Site * s1, Site * s2)
 
     dx = s2->coord.x - s1->coord.x;
     dy = s2->coord.y - s1->coord.y;
-    adx = dx > 0 ? dx : -dx;
-    ady = dy > 0 ? dy : -dy;
+    adx = fabs(dx);
+    ady = fabs(dy);
     newedge->c =
 	s1->coord.x * dx + s1->coord.y * dy + (dx * dx + dy * dy) * 0.5;
     if (adx > ady) {
