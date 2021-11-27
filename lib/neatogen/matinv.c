@@ -35,8 +35,6 @@
 #include <common/render.h>
 #include <neatogen/neato.h>
 
-extern int lu_decompose(double **a, int n);
-
 int matinv(double **A, double **Ainv, int n)
 {
     int i, j;
