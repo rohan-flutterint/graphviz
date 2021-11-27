@@ -53,12 +53,12 @@ HRESULT FileStream::QueryInterface(
 
 ULONG FileStream::AddRef()
 {
-	return ++_ref;
+	return (ULONG)InterlockedIncrement((ULONG*)&_ref);
 }
 
 ULONG FileStream::Release()
 {
-	ULONG ref = --_ref;
+	ULONG ref = (ULONG)InterlockedDecrement((ULONG*)&_ref);
 	if (ref == 0)
 		delete this;
 	return ref;
