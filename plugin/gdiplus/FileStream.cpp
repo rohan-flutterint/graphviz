@@ -15,7 +15,7 @@
 
 
 
-IStream *FileStream::Create(char *name, FILE *file)
+IStream *FileStream::Create(const char *name, FILE *file)
 {
 	return new FileStream(name, file);
 }
@@ -191,9 +191,8 @@ HRESULT FileStream::Clone(IStream **) {
 	return E_NOTIMPL;
 }
 
-FileStream::FileStream(char *name, FILE *file): _ref(1), _name(name), _file(file)
-{
-}
+FileStream::FileStream(const char *name, FILE *file)
+    : _ref(1), _name(name), _file(file) {}
 
 void FileStream::UnixTimeToFileTime(time_t unixTime, FILETIME &fileTime)
 {

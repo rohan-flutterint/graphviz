@@ -19,7 +19,7 @@
 class FileStream : public IStream
 {
 public:
-	static IStream *Create(char* name, FILE *file);
+	static IStream *Create(const char *name, FILE *file);
 
 	/* IUnknown methods */
 
@@ -81,12 +81,12 @@ public:
 	virtual ~FileStream() = default;
 
 private:
-	FileStream(char *name, FILE *file);
+	FileStream(const char *name, FILE *file);
 
 	static void UnixTimeToFileTime(time_t unixTime, FILETIME &fileTime);
 
 	ULONG _ref;
-	char *_name;
+	const char *_name;
 	FILE *_file;
 
 };
