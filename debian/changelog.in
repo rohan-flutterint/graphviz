@@ -4,6 +4,8 @@ graphviz (@VERSION@-1) bionic; urgency=low
     operating systems. This is not intended to become an official Debian
     package.
 
+ -- Matthew Fernandez <matthew.fernandez@gmail.com>  Sun, 24 Oct 2021 13:29:41 -0700
+
 graphviz (2.18-1ubuntu5) intrepid; urgency=low
 
   * libcgraph API bump ->5
