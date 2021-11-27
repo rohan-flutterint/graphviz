@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (c) 2011 AT&T Intellectual Property 
+ * Copyright (c) 2011 AT&T Intellectual Property
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -67,9 +67,9 @@ boolean gdiplus_textlayout(textspan_t *span, char **)
 {
 	/* ensure GDI+ is started up: since we get called outside of a job, we can't rely on GDI+ startup then */
 	UseGdiplus();
-	
+
 	Layout* layout = new Layout(span->font->name, span->font->size, span->str);
-	
+
 	/* measure the text */
 	/* NOTE: use TextRenderingHintAntiAlias + GetGenericTypographic to get a layout without extra space at beginning and end */
 	RectF boundingBox;
@@ -83,11 +83,11 @@ boolean gdiplus_textlayout(textspan_t *span, char **)
 		PointF(0.0f, 0.0f),
 		GetGenericTypographic(),
 		&boundingBox);
-		
+
 	FontFamily fontFamily;
 	layout->font->GetFamily(&fontFamily);
 	int style = layout->font->GetStyle();
-		
+
 	span->layout = layout;
 	span->free_layout = &gdiplus_free_layout;
 	span->size.x = boundingBox.Width;

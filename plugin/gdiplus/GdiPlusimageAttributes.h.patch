@@ -9,5 +9,5 @@
 +                                            (ARGB)0,
 +                                            (ARGB)0));
      }
- 
+
      Status SetOutputChannel(

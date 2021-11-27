@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (c) 2011 AT&T Intellectual Property 
+ * Copyright (c) 2011 AT&T Intellectual Property
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,7 +30,7 @@ struct ImageGraphics: public Graphics
 {
 	Image *image;
 	IStream *stream;
-	
+
 	ImageGraphics(Image *newImage, IStream *newStream):
 		Graphics(newImage), image(newImage), stream(newStream)
 	{
@@ -55,14 +55,14 @@ static void gdiplusgen_begin_job(GVJ_t *job)
 static void gdiplusgen_end_job(GVJ_t *job)
 {
 		auto context = reinterpret_cast<Graphics*>(job->context);
-		
+
 	if (!job->external_context) {
 		/* flush and delete the graphics */
 		ImageGraphics *imageGraphics = static_cast<ImageGraphics *>(context);
 		Image *image = imageGraphics->image;
 		IStream *stream = imageGraphics->stream;
 		delete imageGraphics;
-		
+
 		switch (job->device.id) {
 			case FORMAT_EMF:
 			case FORMAT_EMFPLUS:
@@ -72,7 +72,7 @@ static void gdiplusgen_end_job(GVJ_t *job)
 				SaveBitmapToStream(*static_cast<Bitmap *>(image), stream, job->device.id);
 				break;
 		}
-		
+
 		delete image;	/* NOTE: in the case of EMF, this actually flushes out the image to the underlying stream */
 
 		/* blast the streamed buffer back to the gvdevice */
@@ -97,10 +97,10 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 		HGLOBAL buffer = GlobalAlloc(GMEM_MOVEABLE, 0);
 		IStream *stream = nullptr;
 		CreateStreamOnHGlobal(buffer, FALSE, &stream);	/* FALSE means don't deallocate buffer when releasing stream */
-		
+
 		Image *image;
 		switch (job->device.id) {
-		
+
 		case FORMAT_EMF:
 		case FORMAT_EMFPLUS:
 			/* EMF image */
@@ -111,16 +111,16 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 					job->device.id == FORMAT_EMFPLUS ? EmfTypeEmfPlusOnly : EmfTypeEmfPlusDual);
 				/* output in EMF for wider compatibility; output in EMF+ for antialiasing etc. */
 			break;
-			
+
 			case FORMAT_METAFILE:
 				break;
-				
+
 		default:
 			/* bitmap image */
 			image = new Bitmap (job->width, job->height, PixelFormat32bppARGB);
 			break;
 		}
-		
+
 			job->context = new ImageGraphics(image, stream);
 	}
 		else if (job->device.id == FORMAT_METAFILE)
@@ -135,12 +135,12 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 			job->context = new Graphics(metafile);
 		}
 	}
-	
+
 	/* start graphics state */
 	Graphics *context = (Graphics *)job->context;
 	context->SetSmoothingMode(SmoothingModeHighQuality);
 	context->SetTextRenderingHint(TextRenderingHintAntiAlias);
-	
+
 	/* set up the context transformation */
 	context->ResetTransform();
 
@@ -154,7 +154,7 @@ static void gdiplusgen_begin_page(GVJ_t *job)
 static void gdiplusgen_textspan(GVJ_t *job, pointf p, textspan_t *span)
 {
 	auto context = reinterpret_cast<Graphics*>(job->context);
-		
+
 		/* adjust text position */
 		switch (span->just) {
 		case 'r':
@@ -179,7 +179,7 @@ static void gdiplusgen_textspan(GVJ_t *job, pointf p, textspan_t *span)
 	/* draw the text */
 	SolidBrush brush(Color(job->obj->pencolor.u.rgba [3], job->obj->pencolor.u.rgba [0], job->obj->pencolor.u.rgba [1], job->obj->pencolor.u.rgba [2]));
 	context->DrawString(&layout->text[0], layout->text.size(), layout->font.get(), PointF(p.x, -p.y), GetGenericTypographic(), &brush);
-	
+
 	if (span->free_layout != &gdiplus_free_layout)
 		delete layout;
 
@@ -198,18 +198,18 @@ static vector<PointF> points(pointf *A, int n)
 static void gdiplusgen_path(GVJ_t *job, const GraphicsPath *path, int filled)
 {
 	auto context = reinterpret_cast<Graphics *>(job->context);
-	
+
 	/* fill the given path with job fill color */
 	if (filled) {
 		SolidBrush fill_brush(Color(job->obj->fillcolor.u.rgba [3], job->obj->fillcolor.u.rgba [0], job->obj->fillcolor.u.rgba [1], job->obj->fillcolor.u.rgba [2]));
 		context->FillPath(&fill_brush, path);
 	}
-	
+
 	/* draw the given path from job pen color and pen width */
 	Pen draw_pen(Color(job->obj->pencolor.u.rgba [3], job->obj->pencolor.u.rgba [0], job->obj->pencolor.u.rgba [1], job->obj->pencolor.u.rgba [2]),
 		job->obj->penwidth);
 
-	/* 
+	/*
 	 * Set line type
 	 * See http://msdn.microsoft.com/en-us/library/ms535050%28v=vs.85%29.aspx
 	 */
@@ -236,7 +236,7 @@ static void gdiplusgen_ellipse(GVJ_t *job, pointf *A, int filled)
 	double dx = A[1].x - A[0].x;
 	double dy = A[1].y - A[0].y;
 	path.AddEllipse(RectF(A[0].x - dx, -A[0].y - dy, dx * 2.0, dy * 2.0));
-	
+
 	/* draw the path */
 	gdiplusgen_path(job, &path, filled);
 }
@@ -246,7 +246,7 @@ static void gdiplusgen_polygon(GVJ_t *job, pointf *A, int n, int filled)
 	/* convert polygon into path */
 	GraphicsPath path;
 	path.AddPolygon(&points(A,n).front(), n);
-	
+
 	/* draw the path */
 	gdiplusgen_path(job, &path, filled);
 }
@@ -256,7 +256,7 @@ gdiplusgen_bezier(GVJ_t *job, pointf *A, int n, int, int, int filled) {
 	/* convert the beziers into path */
 	GraphicsPath path;
 	path.AddBeziers(&points(A,n).front(), n);
-	
+
 	/* draw the path */
 	gdiplusgen_path(job, &path, filled);
 }
@@ -266,7 +266,7 @@ static void gdiplusgen_polyline(GVJ_t *job, pointf *A, int n)
 	/* convert the lines into path */
 	GraphicsPath path;
 	path.AddLines(&points(A,n).front(), n);
-	
+
 	/* draw the path */
 	gdiplusgen_path(job, &path, 0);
 }
@@ -335,7 +335,7 @@ gvplugin_installed_t gvrender_gdiplus_types[] = {
 };
 
 gvplugin_installed_t gvdevice_gdiplus_types[] = {
-	{FORMAT_METAFILE, "metafile:gdiplus", 8, nullptr, &device_features_gdiplus_emf},	
+	{FORMAT_METAFILE, "metafile:gdiplus", 8, nullptr, &device_features_gdiplus_emf},
 	{FORMAT_BMP, "bmp:gdiplus", 8, nullptr, &device_features_gdiplus},
 	{FORMAT_EMF, "emf:gdiplus", 8, nullptr, &device_features_gdiplus_emf},
 	{FORMAT_EMFPLUS, "emfplus:gdiplus", 8, nullptr, &device_features_gdiplus_emf},

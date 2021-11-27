@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (c) 2011 AT&T Intellectual Property 
+ * Copyright (c) 2011 AT&T Intellectual Property
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ static void gdiplus_format(GVJ_t *job)
 	HGLOBAL buffer = GlobalAlloc(GMEM_MOVEABLE, 0);
 	IStream *stream = nullptr;
 	CreateStreamOnHGlobal(buffer, FALSE, &stream);	/* FALSE means don't deallocate buffer when releasing stream */
-	
+
 	Bitmap bitmap(
 		job->width,						/* width in pixels */
 		job->height,					/* height in pixels */
@@ -35,7 +35,7 @@ static void gdiplus_format(GVJ_t *job)
 		PixelFormat32bppPARGB,			/* pixel format: corresponds to CAIRO_FORMAT_ARGB32 */
 		(BYTE*)job->imagedata);				/* pixel data from job */
 	SaveBitmapToStream(bitmap, stream, job->device.id);
-	
+
 	/* blast the streamed buffer back to the gvdevice */
 	/* NOTE: this is somewhat inefficient since we should be streaming directly to gvdevice rather than buffering first */
 	/* ... however, GDI+ requires any such direct IStream to implement Seek Read, Write, Stat methods and gvdevice really only offers a write-once model */
@@ -52,7 +52,7 @@ static gvdevice_engine_t gdiplus_engine = {
 };
 
 static gvdevice_features_t device_features_gdiplus = {
-	GVDEVICE_BINARY_FORMAT        
+	GVDEVICE_BINARY_FORMAT
           | GVDEVICE_DOES_TRUECOLOR,/* flags */
 	{0.,0.},                    /* default margin - points */
 	{0.,0.},                    /* default page width, height - points */
