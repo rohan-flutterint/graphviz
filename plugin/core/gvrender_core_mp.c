@@ -88,9 +88,8 @@ static int mpColorResolve(int *new, unsigned char r, unsigned char g,
 }
 
 /* this table is in xfig color index order */
-static char *mpcolor[] = {
-    "black", "blue", "green", "cyan", "red", "magenta", "yellow", "white", (char *) NULL
-};
+static const char *mpcolor[] = {"black", "blue",    "green",  "cyan",
+                                "red",   "magenta", "yellow", "white"};
 
 static void mp_resolve_color(GVJ_t *job, gvcolor_t * color)
 {
@@ -99,7 +98,7 @@ static void mp_resolve_color(GVJ_t *job, gvcolor_t * color)
 
     switch (color->type) {
 	case COLOR_STRING:
-	    for (i = 0; mpcolor[i]; i++) {
+	    for (i = 0; i < (int)(sizeof(mpcolor) / sizeof(mpcolor[0])); i++) {
 		if (streq(mpcolor[i], color->u.string)) {
 		    color->u.index = i;
 		    break;
