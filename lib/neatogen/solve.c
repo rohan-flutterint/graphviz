@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <common/render.h>
+#include <neatogen/neatoprocs.h>
 #define asub(i,j) a[(i)*n + (j)]
 
 
