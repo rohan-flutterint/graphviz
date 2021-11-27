@@ -24,9 +24,8 @@
 
 using namespace Gdiplus;
 
-static void gdiplus_freeimage(usershape_t *us)
-{
-	delete (Image*)us->data;
+static void gdiplus_freeimage(usershape_t *us) {
+  delete reinterpret_cast<Image*>(us->data);
 }
 
 static Image* gdiplus_loadimage(GVJ_t * job, usershape_t *us)
