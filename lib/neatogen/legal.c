@@ -56,6 +56,13 @@ typedef struct polygon polygon;
 	int nvertices, npolygons, ninters;
     } data ;
 
+static int sign(double v) {
+  if (v < 0)
+    return -1;
+  if (v > 0)
+    return 1;
+  return 0;
+}
 
 /* find the sign of the area of each of the triangles
     formed by adding a vertex of m to l  
@@ -72,9 +79,9 @@ static void sgnarea(vertex *l, vertex *m, int i[])
     g = after(m)->pos.x - a;
     h = after(m)->pos.y - b;
     t = c * f - d * e;
-    i[0] = t == 0 ? 0 : (t > 0 ? 1 : -1);
+    i[0] = sign(t);
     t = c * h - d * g;
-    i[1] = t == 0 ? 0 : (t > 0 ? 1 : -1);
+    i[1] = sign(t);
     i[2] = i[0] * i[1];
 }
 
