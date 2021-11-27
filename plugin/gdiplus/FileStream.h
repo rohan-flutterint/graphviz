@@ -23,63 +23,60 @@ public:
 
 	/* IUnknown methods */
 
-	virtual HRESULT STDMETHODCALLTYPE  QueryInterface(
+	HRESULT STDMETHODCALLTYPE QueryInterface(
 		REFIID riid,
-		void **ppvObject);
+		void **ppvObject) override;
 
-	virtual ULONG STDMETHODCALLTYPE  AddRef();
+	ULONG STDMETHODCALLTYPE AddRef() override;
 
-	virtual ULONG STDMETHODCALLTYPE  Release();
+	ULONG STDMETHODCALLTYPE  Release();
 
  	/* ISequentialStream methods */
 
-	virtual HRESULT STDMETHODCALLTYPE  Read(
+	HRESULT STDMETHODCALLTYPE Read(
 		void *pv,
 		ULONG cb,
-		ULONG *pcbRead);
+		ULONG *pcbRead) override;
 
-	virtual HRESULT STDMETHODCALLTYPE  Write(
+	HRESULT STDMETHODCALLTYPE Write(
 		const void *pv,
 		ULONG cb,
-		ULONG *pcbWritten);
+		ULONG *pcbWritten) override;
 
 	/* IStream methods */
 
-	virtual HRESULT STDMETHODCALLTYPE  Seek(
+	HRESULT STDMETHODCALLTYPE Seek(
 		LARGE_INTEGER dlibMove,
 		DWORD dwOrigin,
-		ULARGE_INTEGER *plibNewPosition);
+		ULARGE_INTEGER *plibNewPosition) override;
 
-	virtual HRESULT STDMETHODCALLTYPE  SetSize(
-        	ULARGE_INTEGER libNewSize);
+	HRESULT STDMETHODCALLTYPE SetSize(ULARGE_INTEGER libNewSize) override;
 
-	virtual HRESULT STDMETHODCALLTYPE  CopyTo(
+	HRESULT STDMETHODCALLTYPE CopyTo(
 		IStream *pstm,
 		ULARGE_INTEGER cb,
 		ULARGE_INTEGER *pcbRead,
- 		ULARGE_INTEGER *pcbWritten);
+ 		ULARGE_INTEGER *pcbWritten) override;
 
- 	virtual HRESULT STDMETHODCALLTYPE  Commit(
-        	DWORD grfCommitFlags);
+ 	HRESULT STDMETHODCALLTYPE Commit(DWORD grfCommitFlags) override;
 
- 	virtual HRESULT STDMETHODCALLTYPE  Revert();
+ 	HRESULT STDMETHODCALLTYPE Revert() override;
 
-	virtual HRESULT STDMETHODCALLTYPE  LockRegion(
+	HRESULT STDMETHODCALLTYPE LockRegion(
         	ULARGE_INTEGER libOffset,
         	ULARGE_INTEGER cb,
-        	DWORD dwLockType);
+        	DWORD dwLockType) override;
 
-	virtual HRESULT STDMETHODCALLTYPE  UnlockRegion(
+	HRESULT STDMETHODCALLTYPE UnlockRegion(
         	ULARGE_INTEGER libOffset,
         	ULARGE_INTEGER cb,
-        	DWORD dwLockType);
+        	DWORD dwLockType) override;
 
-	virtual HRESULT STDMETHODCALLTYPE  Stat(
+	HRESULT STDMETHODCALLTYPE Stat(
         	STATSTG *pstatstg,
-        	DWORD grfStatFlag);
+        	DWORD grfStatFlag) override;
 
-	virtual HRESULT STDMETHODCALLTYPE  Clone(
-        	IStream **ppstm);
+	HRESULT STDMETHODCALLTYPE Clone(IStream **ppstm) override;
 
 	virtual ~FileStream() = default;
 
