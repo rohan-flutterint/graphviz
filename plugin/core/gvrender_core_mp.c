@@ -15,7 +15,6 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #ifdef _WIN32
 #include <io.h>
@@ -52,44 +51,6 @@ static void mpptarray(GVJ_t *job, pointf * A, int n, int close)
         gvprintf(job, " %d %d", p.x, p.y);
     }
     gvputs(job, "\n");
-}
-
-static char *mp_string(char *s)
-{
-    static char *buf = NULL;
-    static size_t bufsize = 0;
-    size_t pos = 0;
-    char *p;
-    char c;
-
-    if (!buf) {
-        bufsize = 64;
-        buf = malloc(bufsize * sizeof(char));
-    }
-
-    p = buf;
-    while ((c = *s++)) {
-        if (pos > (bufsize - 8)) {
-            bufsize *= 2;
-            buf = realloc(buf, bufsize * sizeof(char));
-            p = buf + pos;
-        }
-        if (isascii(c)) {
-            if (c == '\\') {
-                *p++ = '\\';
-                pos++;
-            }
-            *p++ = c;
-            pos++;
-        } else {
-            *p++ = '\\';
-            sprintf(p, "%03o", (unsigned)c);
-            p += 3;
-            pos += 4;
-        }
-    }
-    *p = '\0';
-    return buf;
 }
 
 static int mpColorResolve(int *new, unsigned char r, unsigned char g,
@@ -285,10 +246,11 @@ static void mp_textspan(GVJ_t * job, pointf p, textspan_t * span)
     }
 
     gvprintf(job,
-            "%d %d %d %d %d %d %.1f %.4f %d %.1f %.1f %d %d %s\\001\n",
+            "%d %d %d %d %d %d %.1f %.4f %d %.1f %.1f %d %d",
             object_code, sub_type, color, depth, pen_style, font,
-            font_size, angle, font_flags, height, length, ROUND(p.x), ROUND(p.y),
-            mp_string(span->str));
+            font_size, angle, font_flags, height, length, ROUND(p.x), ROUND(p.y));
+    gvputs_nonascii(job, span->str);
+    gvputs(job, "\\001\n");
 }
 
 static void mp_ellipse(GVJ_t * job, pointf * A, int filled)
