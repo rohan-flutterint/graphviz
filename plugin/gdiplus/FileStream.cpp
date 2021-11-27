@@ -29,19 +29,19 @@ HRESULT FileStream::QueryInterface(
 	if (riid == IID_IUnknown)
 	{
 		*ppvObject = this;
-		++_ref;
+		AddRef();
 		return S_OK;
 	}
 	else if (riid == IID_ISequentialStream)
 	{
 		*ppvObject = this;
-		++_ref;
+		AddRef();
 		return S_OK;
 	}
 	else if (riid == IID_IStream)
 	{
 		*ppvObject = this;
-		++_ref;
+		AddRef();
 		return S_OK;
 	}
 	else
