@@ -36,7 +36,6 @@
 #include <neatogen/neato.h>
 
 extern int lu_decompose(double **a, int n);
-extern void lu_solve(double *x, double *b, int n);
 
 int matinv(double **A, double **Ainv, int n)
 {
