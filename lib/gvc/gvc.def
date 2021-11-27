@@ -149,6 +149,7 @@ gvprintpointf
 gvprintpointflist    
 gvputc    
 gvputs    
+gvputs_nonascii
 gvputs_xml
 gvRender    
 gvRenderData    

@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - hard-coded lookup tables for fallback font metrics for more fonts and font
   variants
+- a new `gvputs_nonascii` API function has been implemented for GVC I/O with C
+  escaping
 
 ### Changed
 

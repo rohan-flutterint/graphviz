@@ -277,6 +277,18 @@ int gvputs_xml(GVJ_t *job, const char *s) {
   return xml_escape(s, flags, (int (*)(void *, const char *))gvputs, job);
 }
 
+void gvputs_nonascii(GVJ_t *job, const char *s) {
+  for (; *s != '\0'; ++s) {
+    if (*s == '\\') {
+      gvputs(job, "\\\\");
+    } else if (isascii(*s)) {
+      gvputc(job, *s);
+    } else {
+      gvprintf(job, "%03o", (unsigned)*s);
+    }
+  }
+}
+
 int gvputc(GVJ_t * job, int c)
 {
     const char cc = c;
