@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include <ctype.h>
 
 #include <gvc/gvplugin_render.h>
 #include <gvc/gvplugin_device.h>
@@ -144,44 +143,6 @@ static void picptarray(GVJ_t *job, pointf * A, int n, int close)
         gvprintf(job, "; line to (%d, %d)", p.x, p.y);
     }
     gvputs(job, "\n");
-}
-
-static char *pic_string(char *s)
-{
-    static char *buf = NULL;
-    static size_t bufsize = 0;
-    size_t pos = 0;
-    char *p;
-    char c;
-
-    if (!buf) {
-        bufsize = 64;
-        buf = malloc(bufsize * sizeof(char));
-    }
-
-    p = buf;
-    while ((c = *s++)) {
-        if (pos > (bufsize - 8)) {
-            bufsize *= 2;
-            buf = realloc(buf, bufsize * sizeof(char));
-            p = buf + pos;
-        }
-        if (isascii(c)) {
-            if (c == '\\') {
-                *p++ = '\\';
-                pos++;
-            }
-            *p++ = c;
-            pos++;
-        } else {
-            *p++ = '\\';
-            sprintf(p, "%03o", (unsigned)c);
-            p += 3;
-            pos += 4;
-        }
-    }
-    *p = '\0';
-    return buf;
 }
 
 static void pic_line_style(obj_state_t *obj, int *line_style, double *style_val)
@@ -373,8 +334,9 @@ static void pic_textspan(GVJ_t * job, pointf p, textspan_t * span)
         gvprintf(job, ".ps %d*\\n(SFu/%.0fu\n", sz, Fontscale);
 	lastsize = sz;
     }
-    gvprintf(job, "\"%s\" at (%.5f,%.5f);\n",
-            pic_string(span->str), p.x, p.y);
+    gvputc(job, '"');
+    gvputs_nonascii(job, span->str);
+    gvprintf(job, "\" at (%.5f,%.5f);\n", p.x, p.y);
 }
 
 static void pic_ellipse(GVJ_t * job, pointf * A, int filled)
