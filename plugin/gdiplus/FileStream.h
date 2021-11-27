@@ -13,8 +13,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <objbase.h>
-
-
+#include <string>
 
 class FileStream : public IStream
 {
@@ -86,7 +85,7 @@ private:
 	static void UnixTimeToFileTime(time_t unixTime, FILETIME &fileTime);
 
 	ULONG _ref;
-	const char *_name;
+	std::string _name;
 	FILE *_file;
 
 };
