@@ -273,6 +273,9 @@ static int find_intersection(vertex *l,
     ilist[input->ninters].x = x;
     ilist[input->ninters].y = y;
     input->ninters++;
+#else
+    (void)ilist;
+    (void)input;
 #endif
     p.x = x;
     p.y = y;
