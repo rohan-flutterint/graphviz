@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include	<stdbool.h>
 #include	<stddef.h>
 #include	<string.h>
 #include        <sys/types.h>
@@ -69,8 +70,9 @@ char *gvplugin_api_name(api_t api)
  * quality sorted within the type, then, if qualities are the same,
  * last install wins.
  */
-boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
-                         int quality, gvplugin_package_t * package, gvplugin_installed_t * typeptr)
+bool gvplugin_install(GVC_t *gvc, api_t api, const char *typestr, int quality,
+                      gvplugin_package_t *package,
+                      gvplugin_installed_t *typeptr)
 {
     gvplugin_available_t *plugin, **pnext;
 #define TYPSIZ 63
@@ -79,7 +81,7 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
     /* duplicate typestr to later save in the plugin list */
     t = strdup(typestr);
     if (t == NULL)
-        return FALSE;
+        return false;
 
     strncpy(pins, typestr, TYPSIZ);
     if ((p = strchr(pins, ':')))
@@ -118,7 +120,7 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
     plugin->package = package;
     plugin->typeptr = typeptr;  /* null if not loaded */
 
-    return TRUE;
+    return true;
 }
 
 /* Activate a plugin description in the list of available plugins.

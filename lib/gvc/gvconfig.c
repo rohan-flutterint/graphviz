@@ -174,7 +174,7 @@ static int gvconfig_plugin_install_from_config(GVC_t * gvc, char *s)
     char *package_path, *name, *api;
     const char *type;
     api_t gv_api;
-    int quality, rc;
+    int quality;
     int nest = 0;
     gvplugin_package_t *package;
 
@@ -196,8 +196,7 @@ static int gvconfig_plugin_install_from_config(GVC_t * gvc, char *s)
 		        quality = atoi(token(&nest, &s));
 		    else
 		        quality = 0;
-		    rc = gvplugin_install (gvc, gv_api,
-				    type, quality, package, NULL);
+		    bool rc = gvplugin_install(gvc, gv_api, type, quality, package, NULL);
 		    if (!rc) {
 		        agerr(AGERR, "config error: %s %s %s\n", package_path, api, type);
 		        return 0;

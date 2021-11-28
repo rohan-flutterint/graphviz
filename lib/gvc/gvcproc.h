@@ -12,6 +12,8 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 /* these are intended to be private entry points - see gvc.h for the public ones */
 
 /* configuration */
@@ -22,7 +24,7 @@
 
 /* plugins */
 
-    boolean gvplugin_install(GVC_t * gvc, api_t api,
+    bool gvplugin_install(GVC_t *gvc, api_t api,
 		    const char *typestr, int quality, gvplugin_package_t *package,
 		    gvplugin_installed_t * typeptr);
     gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *type);
