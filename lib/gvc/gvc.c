@@ -89,7 +89,7 @@ int gvRender(GVC_t *gvc, graph_t *g, const char *format, FILE *out)
     /* create a job for the required format */
     rc = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (rc == NO_SUPPORT) {
+    if (!rc) {
         agerr (AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
                 format, gvplugin_list(gvc, API_device, format));
         return -1;
@@ -121,7 +121,7 @@ int gvRenderFilename(GVC_t *gvc, graph_t *g, const char *format, const char *fil
     /* create a job for the required format */
     rc = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (rc == NO_SUPPORT) {
+    if (!rc) {
 	agerr(AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
                 format, gvplugin_list(gvc, API_device, format));
 	return -1;
@@ -152,7 +152,7 @@ int gvRenderContext(GVC_t *gvc, graph_t *g, const char *format, void *context)
     /* create a job for the required format */
     rc = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (rc == NO_SUPPORT) {
+    if (!rc) {
 		agerr(AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
 			  format, gvplugin_list(gvc, API_device, format));
 		return -1;
@@ -186,7 +186,7 @@ int gvRenderData(GVC_t *gvc, graph_t *g, const char *format, char **result, unsi
     /* create a job for the required format */
     rc = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (rc == NO_SUPPORT) {
+    if (!rc) {
 	agerr(AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
                 format, gvplugin_list(gvc, API_device, format));
 	return -1;

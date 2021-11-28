@@ -26,7 +26,7 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
     ictx_t *ictx = gctx->ictx;
     Agsym_t *a;
     char c, buf[256], **argv2;
-    int i, j, argc2, rc;
+    int i, j, argc2;
     size_t length;
     GVC_t *gvc = ictx->gvc;
     GVJ_t *job = gvc->job;
@@ -328,8 +328,7 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
 	} else {
 	    canvas = argv[2];
 	}
-        rc = gvjobs_output_langname(gvc, "tk");
-	if (rc == NO_SUPPORT) {
+	if (!gvjobs_output_langname(gvc, "tk")) {
 	    Tcl_AppendResult(interp, " Format: \"tk\" not recognized.\n", NULL);
 	    return TCL_ERROR;
 	}
@@ -453,7 +452,7 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
 	} else {
 	    i = gvjobs_output_langname(gvc, argv[3]);
 	}
-	if (i == NO_SUPPORT) {
+	if (!i) {
 	    const char *s = gvplugin_list(gvc, API_render, argv[3]);
 	    Tcl_AppendResult(interp, "bad langname: \"", argv[3], "\". Use one of:", s, NULL);
 	    return TCL_ERROR;
