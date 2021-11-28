@@ -94,9 +94,8 @@ static void usage(int v)
     exit(v);
 }
 
-static void errexit(char opt)
-{
-    fprintf(stderr, "in flag -%c\n", opt);
+static void errexit(int opt) {
+    fprintf(stderr, "in flag -%c\n", (char)opt);
     usage(1);
 }
 
