@@ -3022,34 +3022,34 @@ static void init_gvc(GVC_t * gvc, graph_t * g)
     gvc->g = g;
 
     /* margins */
-    gvc->graph_sets_margin = FALSE;
+    gvc->graph_sets_margin = false;
     if ((p = agget(g, "margin"))) {
         i = sscanf(p, "%lf,%lf", &xf, &yf);
         if (i > 0) {
             gvc->margin.x = gvc->margin.y = xf * POINTS_PER_INCH;
             if (i > 1)
                 gvc->margin.y = yf * POINTS_PER_INCH;
-            gvc->graph_sets_margin = TRUE;
+            gvc->graph_sets_margin = true;
         }
     }
 
     /* pad */
-    gvc->graph_sets_pad = FALSE;
+    gvc->graph_sets_pad = false;
     if ((p = agget(g, "pad"))) {
         i = sscanf(p, "%lf,%lf", &xf, &yf);
         if (i > 0) {
             gvc->pad.x = gvc->pad.y = xf * POINTS_PER_INCH;
             if (i > 1)
                 gvc->pad.y = yf * POINTS_PER_INCH;
-            gvc->graph_sets_pad = TRUE;
+            gvc->graph_sets_pad = true;
         }
     }
 
     /* pagesize */
-    gvc->graph_sets_pageSize = FALSE;
+    gvc->graph_sets_pageSize = false;
     gvc->pageSize = GD_drawing(g)->page;
     if (GD_drawing(g)->page.x > 0.001 && GD_drawing(g)->page.y > 0.001)
-        gvc->graph_sets_pageSize = TRUE;
+        gvc->graph_sets_pageSize = true;
 
     /* rotation */
     if (GD_drawing(g)->landscape)

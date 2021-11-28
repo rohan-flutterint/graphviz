@@ -117,7 +117,7 @@ extern "C" {
 	point pb;		/* page size - including margins (inches) */
 	boxf bb;		/* graph bb in graph units, not including margins */
 	int rotation;		/* rotation - 0 = portrait, 90 = landscape */
-	boolean graph_sets_pad, graph_sets_margin, graph_sets_pageSize;
+	bool graph_sets_pad, graph_sets_margin, graph_sets_pageSize;
 
 	/* layers */
 	char *layerDelims;	/* delimiters in layer names */
