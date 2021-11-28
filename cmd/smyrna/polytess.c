@@ -42,7 +42,7 @@ static void CALLBACK vertexCallback(GLvoid *vertex)
 
 }
 
-static GLUtesselator* Init()
+static GLUtesselator* Init(void)
 {
     // Create a new tessellation object 
     GLUtesselator* tobj = gluNewTess(); 
