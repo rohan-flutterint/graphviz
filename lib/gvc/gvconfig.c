@@ -564,7 +564,7 @@ void gvconfig(GVC_t * gvc, boolean rescan)
     /* builtins don't require LTDL */
     gvconfig_plugin_install_builtins(gvc);
    
-    gvc->config_found = FALSE;
+    gvc->config_found = false;
 #ifdef ENABLE_LTDL
     if (gvc->common.demand_loading) {
         /* see if there are any new plugins */
@@ -585,7 +585,7 @@ void gvconfig(GVC_t * gvc, boolean rescan)
     	
         if (rescan) {
     	    config_rescan(gvc, gvc->config_path);
-    	    gvc->config_found = TRUE;
+    	    gvc->config_found = true;
 	    gvtextlayout_select(gvc);   /* choose best available textlayout plugin immediately */
     	    return;
         }
@@ -614,7 +614,7 @@ void gvconfig(GVC_t * gvc, boolean rescan)
     	            agerr(AGERR, "%s read error.\n", gvc->config_path);
     	        }
     	        else {
-    	            gvc->config_found = TRUE;
+    	            gvc->config_found = true;
     	            config_text[sz] = '\0';  /* make input into a null terminated string */
     	            rc = gvconfig_plugin_install_from_config(gvc, config_text);
     	        }

@@ -20,6 +20,7 @@ extern "C" {
 #include "gvcommon.h"
 #include "gvcjob.h"
 #include "color.h"
+#include <stdbool.h>
 
     /* active plugin headers */
     typedef struct gvplugin_active_layout_s {
@@ -68,7 +69,7 @@ extern "C" {
 	GVCOMMON_t common;
 
 	char *config_path;
-	boolean config_found;
+	bool config_found;
 
 	/* gvParseArgs */
 	char **input_filenames; /* null terminated array of input filenames */
