@@ -733,7 +733,7 @@ static colorschemaset *create_color_theme(int themeid)
 {
     colorschemaset *s;
 
-    if ((themeid < 0) || (NUM_SCHEMES <= themeid)) {
+    if (themeid < 0 || (int)NUM_SCHEMES <= themeid) {
 	fprintf (stderr, "colorschemaset: illegal themeid %d\n", themeid);
 	return view->colschms;
     }
