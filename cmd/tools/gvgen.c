@@ -302,6 +302,7 @@ static GraphType init(int argc, char *argv[], opts_t* opts)
 	    break;
 	case 'G':
 	    opts->isPartial = 1;
+	    // fall through
 	case 'g':
 	    graphType = grid;
 	    optarg = setFold (optarg, opts);
