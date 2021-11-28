@@ -72,7 +72,7 @@ void mCloseSlot(GtkWidget * widget, gpointer user_data)
     (void)user_data;
 
     if (view->activeGraph == 0)
-	close_graph(view, 0);
+	close_graph(view);
 }
 
 void mOptionsSlot(GtkWidget * widget, gpointer user_data)
@@ -86,7 +86,7 @@ void mQuitSlot(GtkWidget * widget, gpointer user_data)
     (void)widget;
     (void)user_data;
 
-    if (close_graph(view, view->activeGraph));
+    if (close_graph(view));
     gtk_main_quit();
 }
 

@@ -80,7 +80,7 @@ static void cb_display(void)
     if (view->initFile) {
 	view->initFile = 0;
 	if (view->activeGraph == 0)
-	    close_graph(view, 0);
+	    close_graph(view);
 	add_graph_to_viewport_from_file(view->initFileName);
     }
 

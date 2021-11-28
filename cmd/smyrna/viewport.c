@@ -71,7 +71,7 @@ static void *get_glut_font(int ind)
 
 }
 
-int close_graph(ViewInfo * view, int graphid)
+int close_graph(ViewInfo * view)
 {
     if (view->activeGraph < 0)
 	return 1;
