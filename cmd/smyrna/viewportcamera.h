@@ -13,4 +13,4 @@
 #include "smyrnadefs.h"
 #include <glcomp/glcompset.h>
 
-    extern void menu_click_add_camera(void *p);
+    extern void menu_click_add_camera(void);

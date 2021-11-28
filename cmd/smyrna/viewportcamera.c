@@ -32,7 +32,7 @@ static viewport_camera *add_camera_to_viewport(ViewInfo * view)
     return view->cameras[view->camera_count - 1];
 }
 
-void menu_click_add_camera(void *p)
+void menu_click_add_camera(void)
 {
     viewport_camera *c;
     /*add test cameras */
