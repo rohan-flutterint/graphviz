@@ -515,7 +515,7 @@ void refreshViewport(void)
     expose_event(view->drawing_area, NULL, NULL);
 }
 
-static void activate(int id, int doClear)
+static void activate(int id)
 {
     view->activeGraph = id;
     refreshViewport();
@@ -531,7 +531,7 @@ int add_graph_to_viewport(Agraph_t * graph, char *id)
 
 	gtk_combo_box_append_text(view->graphComboBox, id);
 	gtk_combo_box_set_active(view->graphComboBox,view->graphCount-1);
-	activate(view->graphCount - 1, 0);
+	activate(view->graphCount - 1);
 	return 1;
     } else {
 	return 0;
@@ -543,7 +543,7 @@ void switch_graph(int graphId)
     if ((graphId >= view->graphCount) || (graphId < 0))
 	return;			/*wrong entry */
     else
-	activate(graphId, 0);
+	activate(graphId);
 }
 
 /* save_graph_with_file_name:
