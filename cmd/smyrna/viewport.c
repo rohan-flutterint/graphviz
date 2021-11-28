@@ -236,6 +236,8 @@ void set_viewport_settings_from_template(ViewInfo * view, Agraph_t * g)
 
 static gboolean gl_main_expose(gpointer data)
 {
+    (void)data;
+
     if (view->activeGraph >= 0) {
 	if (view->Topview->fisheyeParams.animate == 1)
 	    expose_event(view->drawing_area, NULL, NULL);
