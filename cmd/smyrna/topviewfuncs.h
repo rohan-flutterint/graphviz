@@ -16,6 +16,5 @@ extern void pick_object_xyz(Agraph_t* g,topview* t,GLfloat x,GLfloat y,GLfloat z
 extern void initSmGraph(Agraph_t * g,topview* rv);
 extern void updateSmGraph(Agraph_t * g,topview* t);
 extern void renderSmGraph(topview* t);
-extern void freeSmGraph(Agraph_t * g,topview* t);
 extern void cacheSelectedEdges(Agraph_t * g,topview* t);
 extern void cacheSelectedNodes(Agraph_t * g,topview* t);

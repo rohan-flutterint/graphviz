@@ -921,7 +921,3 @@ void renderSmGraph(topview* t)
     }
 
 }
-
-void freeSmGraph(Agraph_t * g,topview* t)
-{
-}

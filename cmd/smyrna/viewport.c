@@ -40,11 +40,6 @@ GtkMessageDialog *Dlg;
 
 static void clear_viewport(ViewInfo * view)
 {
-    /*free topview if there is one */
-    if (view->activeGraph >= 0)
-    {
-	freeSmGraph(view->g[view->activeGraph],view->Topview);
-    }
     if (view->graphCount)
 	agclose(view->g[view->activeGraph]);
 }
