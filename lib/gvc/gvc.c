@@ -17,6 +17,7 @@
 #include <gvc/gvcproc.h>
 #include <gvc/gvconfig.h>
 #include <gvc/gvio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 GVC_t *gvContext(void)
@@ -87,9 +88,9 @@ int gvRender(GVC_t *gvc, graph_t *g, const char *format, FILE *out)
     g = g->root;
 
     /* create a job for the required format */
-    rc = gvjobs_output_langname(gvc, format);
+    bool r = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (!rc) {
+    if (!r) {
         agerr (AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
                 format, gvplugin_list(gvc, API_device, format));
         return -1;
@@ -119,9 +120,9 @@ int gvRenderFilename(GVC_t *gvc, graph_t *g, const char *format, const char *fil
     g = g->root;
 
     /* create a job for the required format */
-    rc = gvjobs_output_langname(gvc, format);
+    bool r = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (!rc) {
+    if (!r) {
 	agerr(AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
                 format, gvplugin_list(gvc, API_device, format));
 	return -1;
@@ -150,9 +151,9 @@ int gvRenderContext(GVC_t *gvc, graph_t *g, const char *format, void *context)
     g = g->root;
 	
     /* create a job for the required format */
-    rc = gvjobs_output_langname(gvc, format);
+    bool r = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (!rc) {
+    if (!r) {
 		agerr(AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
 			  format, gvplugin_list(gvc, API_device, format));
 		return -1;
@@ -184,9 +185,9 @@ int gvRenderData(GVC_t *gvc, graph_t *g, const char *format, char **result, unsi
     g = g->root;
 
     /* create a job for the required format */
-    rc = gvjobs_output_langname(gvc, format);
+    bool r = gvjobs_output_langname(gvc, format);
     job = gvc->job;
-    if (!rc) {
+    if (!r) {
 	agerr(AGERR, "Format: \"%s\" not recognized. Use one of:%s\n",
                 format, gvplugin_list(gvc, API_device, format));
 	return -1;

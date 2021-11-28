@@ -16,6 +16,7 @@
 #include        <gvc/gvcjob.h>
 #include        <gvc/gvcint.h>
 #include        <gvc/gvcproc.h>
+#include        <stdbool.h>
 
 static GVJ_t *output_filename_job;
 static GVJ_t *output_langname_job;
@@ -58,7 +59,7 @@ void gvjobs_output_filename(GVC_t * gvc, const char *name)
 }
 
 /* -T switches */
-boolean gvjobs_output_langname(GVC_t * gvc, const char *name)
+bool gvjobs_output_langname(GVC_t * gvc, const char *name)
 {
     if (!gvc->jobs) {
 	output_langname_job = gvc->job = gvc->jobs = zmalloc(sizeof(GVJ_t));
@@ -77,8 +78,8 @@ boolean gvjobs_output_langname(GVC_t * gvc, const char *name)
 
     /* load it now to check that it exists */
     if (gvplugin_load(gvc, API_device, name))
-	return TRUE;
-    return FALSE;
+	return true;
+    return false;
 }
 
 GVJ_t *gvjobs_first(GVC_t * gvc)

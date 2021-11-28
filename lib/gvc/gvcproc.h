@@ -39,7 +39,7 @@
 /* job */
 
     void gvjobs_output_filename(GVC_t * gvc, const char *name);
-    boolean gvjobs_output_langname(GVC_t * gvc, const char *name);
+    bool gvjobs_output_langname(GVC_t * gvc, const char *name);
     GVJ_t *gvjobs_first(GVC_t * gvc);
     GVJ_t *gvjobs_next(GVC_t * gvc);
     void gvjobs_delete(GVC_t * gvc);

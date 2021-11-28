@@ -447,12 +447,7 @@ int graphcmd(ClientData clientData, Tcl_Interp * interp,
 	}
 
 	/* process lang first to create job */
-	if (argc < 4) {
-	    i = gvjobs_output_langname(gvc, "dot");
-	} else {
-	    i = gvjobs_output_langname(gvc, argv[3]);
-	}
-	if (!i) {
+	if (!gvjobs_output_langname(gvc, argc < 4 ? "dot" : argv[3])) {
 	    const char *s = gvplugin_list(gvc, API_render, argv[3]);
 	    Tcl_AppendResult(interp, "bad langname: \"", argv[3], "\". Use one of:", s, NULL);
 	    return TCL_ERROR;
