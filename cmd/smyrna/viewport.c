@@ -497,7 +497,7 @@ graphRecord (Agraph_t* g)
     updateRecord (g);
 }
 
-void refreshViewport(int doClear)
+void refreshViewport(void)
 {
     Agraph_t *graph = view->g[view->activeGraph];
     view->refresh.color=1;
@@ -518,7 +518,7 @@ void refreshViewport(int doClear)
 static void activate(int id, int doClear)
 {
     view->activeGraph = id;
-    refreshViewport(doClear);
+    refreshViewport();
 }
 
 int add_graph_to_viewport(Agraph_t * graph, char *id)

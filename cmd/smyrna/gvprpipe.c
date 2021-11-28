@@ -58,7 +58,7 @@ int run_gvpr(Agraph_t * srcGraph, int argc, char *argv[])
 	fprintf(stderr, "Error in gvpr\n");
     } else if (opts.n_outgraphs) 
     {
-	refreshViewport(0);
+	refreshViewport();
 	snprintf(buf, sizeof(buf), "<%d>", ++count);
 	if (opts.outgraphs[0] != view->g[view->activeGraph])
 	    add_graph_to_viewport(opts.outgraphs[0], buf);
