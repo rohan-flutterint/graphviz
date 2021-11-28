@@ -383,7 +383,7 @@ static GraphType init(int argc, char *argv[], opts_t* opts)
 		errexit(c);
 	    break;
 	case 'i':
-	    if (readOne(optarg,&(opts->cnt)))
+	    if (readOne(optarg, &opts->cnt))
 		errexit(c);
 	    break;
 	case 'v':
@@ -490,7 +490,7 @@ int main(int argc, char *argv[])
 	makeBall(opts.graphSize1, opts.graphSize2, ef);
 	break;
     case torus:
-	if ((opts.parm1 == 0) && (opts.parm2 == 0))
+	if (opts.parm1 == 0 && opts.parm2 == 0)
 	    makeTorus(opts.graphSize1, opts.graphSize2, ef);
 	else
 	    makeTwistedTorus(opts.graphSize1, opts.graphSize2, opts.parm1, opts.parm2, ef);
