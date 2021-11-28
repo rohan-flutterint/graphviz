@@ -14,6 +14,7 @@
 
 #include "config.h"
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_UNISTD_H
@@ -106,10 +107,8 @@ static void errexit(int opt) {
  */
 static int readPos(char *s, char **e, int min)
 {
-    int d;
-
-    d = strtol(s, e, 10);
-    if (s == *e) {
+    long d = strtol(s, e, 10);
+    if (s == *e || d > INT_MAX) {
 	fprintf(stderr, "ill-formed integer \"%s\" ", s);
 	return -1;
     }
@@ -117,7 +116,7 @@ static int readPos(char *s, char **e, int min)
 	fprintf(stderr, "integer \"%s\" less than %d", s, min);
 	return -1;
     }
-    return d;
+    return (int)d;
 }
 
 /* readOne:
