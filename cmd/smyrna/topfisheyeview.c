@@ -324,7 +324,7 @@ static void drawtopfishedges(topview * t)
 
 }
 
-static int get_active_frame()
+static int get_active_frame(void)
 {
     gulong microseconds;
     gdouble seconds;
