@@ -12,11 +12,12 @@
 #include "viewport.h"
 #include "topviewfuncs.h"
 #include <common/memory.h>
+#include <stdbool.h>
 
 typedef struct {
     GType type;
     char *name;
-    int editable;
+    bool editable;
 } gridCol;
 typedef struct {
     int count;
@@ -143,7 +144,7 @@ int tv_save_as(int withEdges)
 }
 
 static void create_text_column(char *Title, GtkTreeView * tree, int asso,
-			       int editable)
+			       bool editable)
 {
     PangoColor c;
     GtkTreeViewColumn *column;
@@ -170,7 +171,7 @@ static void create_text_column(char *Title, GtkTreeView * tree, int asso,
 }
 
 static void create_toggle_column(char *Title, GtkTreeView * tree, int asso,
-				 int editable)
+				 bool editable)
 {
     GtkTreeViewColumn *column;
     GtkCellRendererToggle *renderer;
@@ -304,7 +305,7 @@ static GtkTreeView *update_tree(GtkTreeView * tree, grid * g)
     return tree;
 }
 
-static void add_column(grid * g, char *name, int editable, GType g_type)
+static void add_column(grid * g, char *name, bool editable, GType g_type)
 {
     if (*name == '\0')
 	return;
@@ -352,16 +353,16 @@ static grid *update_columns(grid * g, char *str)
 	    return g;
     } else
 	g = initGrid();
-    add_column(g, Name, 0, G_TYPE_STRING);
+    add_column(g, Name, false, G_TYPE_STRING);
     if (!str)
 	return g;
 
     g->flds = str;
     buf = strdup (str);  /* need to dup because str is actual graph attribute value */
     a = strtok(buf, ",");
-    add_column(g, a, 1, G_TYPE_STRING);
+    add_column(g, a, true, G_TYPE_STRING);
     while ((a = strtok(NULL, ",")))
-	add_column(g, a, 1, G_TYPE_STRING);
+	add_column(g, a, true, G_TYPE_STRING);
     return g;
 }
 
