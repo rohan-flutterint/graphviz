@@ -400,6 +400,9 @@ static GraphType init(int argc, char *argv[], opts_t* opts)
 		fprintf(stderr, "Unrecognized flag \"-%c\" - ignored\n",
 			optopt);
 	    break;
+	default:
+	    fprintf(stderr, "Unexpected error\n");
+	    usage(EXIT_FAILURE);
 	}
     }
 
