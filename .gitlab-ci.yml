@@ -469,7 +469,7 @@ windows-cygwin-build:
         - choco config set cacheLocation choco-cache
         - choco install --yes --no-progress cygwin
         - $Env:build_system = "autotools"
-        - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
+        - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh 2>&1 | ci/timestamp.sh'
     artifacts:
         when: always
         expire_in: 1 week
@@ -499,7 +499,7 @@ windows-cygwin-build-using-autogen:
         - python gen_version.py --output GRAPHVIZ_VERSION
         - $Env:build_system = "autotools"
         - $Env:use_autogen = "yes"
-        - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
+        - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh 2>&1 | ci/timestamp.sh'
     artifacts:
         when: always
         expire_in: 1 week
@@ -853,7 +853,7 @@ windows-cygwin-cmake-build:
         - choco config set cacheLocation choco-cache
         - choco install --yes --no-progress cygwin
         - $Env:build_system = "cmake"
-        - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh'
+        - C:\tools\cygwin\bin\bash -l -c 'cd $CI_PROJECT_DIR && ci/cygwin-build.sh 2>&1 | ci/timestamp.sh'
     artifacts:
         when: always
         expire_in: 1 week
